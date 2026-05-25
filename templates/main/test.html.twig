@@ -9,5 +9,28 @@
 </head>
 <body>
 <h1>testDOS</h1>
+
+{# c'est un commentaire#}
+{% set name= "Silvia" %}
+<p>{{ name }}</p>
+
+{% set colors = ["blue","black","red","pink"] %}
+{% for color in colors %}
+
+    <div style="background-color: {{ color }}; padding: 15px":>{{ color }}</div>
+{%  endfor %}
+
+{% set book = {
+    title: 'Symfony',
+    year: 2026,
+    author: 'Sia',
+}
+%}
+{% for mie, val in book %}
+<dl>
+    <dt>{{ mie }}</dt>
+    <dd>{{  val }}</dd>
+</dl>
+{% endfor %}
 </body>
 </html>
