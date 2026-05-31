@@ -1,36 +1,32 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<h1>testDOS</h1>
+{% extends 'base.html.twig' %}
+{% block title %}Testounet | {{ parent() }}{% endblock %}
 
-{# c'est un commentaire#}
-{% set name= "Silvia" %}
-<p>{{ name }}</p>
 
-{% set colors = ["blue","black","red","pink"] %}
-{% for color in colors %}
+{% block body %}
 
-    <div style="background-color: {{ color }}; padding: 15px":>{{ color }}</div>
-{%  endfor %}
+    <h1>test</h1>
 
-{% set book = {
-    title: 'Symfony',
-    year: 2026,
-    author: 'Sia',
-}
-%}
-{% for mie, val in book %}
-<dl>
-    <dt>{{ mie }}</dt>
-    <dd>{{  val }}</dd>
-</dl>
-{% endfor %}
-</body>
-</html>
+    <p>{{ "yesterday"|date("d-m-Y") }}</p>
+    {% set name= "Silvia" %}
+    <p>{{ name }} - {{ name | length }}</p>
+
+    {% set colors = ["blue","black","red","pink"] %}
+    {% for color in colors %}
+        <p> {{ colors | length }} coleurs</p>
+
+        <div style="background-color: {{ color }}; padding: 15px" :>{{ color }}</div>
+    {% endfor %}
+
+    {% set book = {
+        title: 'Symfony',
+        year: 2026,
+        author: 'Sia',
+    } %}
+    {% for mie, val in book %}
+        <dl>
+            <dt>{{ mie }}</dt>
+            <dd>{{ val }}</dd>
+        </dl>
+    {% endfor %}
+
+{% endblock body %}
