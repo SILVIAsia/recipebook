@@ -7,12 +7,12 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
         <title>{% block title %}Recettes du CDM!{% endblock %}</title>
-
-
-
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="icon" href="{{ asset('images/favicomlogo.png') }}" type="image/x-icon">
 
         {% block stylesheets %}
-
         {% endblock %}
 
         {% block javascripts %}
@@ -23,7 +23,13 @@
 
     <body>
         <header>
-        {% include("views/nav.html.twig") %}
+            {% include("views/nav.html.twig") %}
+
+           <a href="{{ path('main_home') }}" title="Aller a l'accueil">
+               <img src="{{ asset('images/logocdm1.png')}}">
+           </a>
+
+
         </header>
 
         <main>

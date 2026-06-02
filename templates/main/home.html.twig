@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
  {% block body %}
-<h1>Mon Site de Recettes</h1>
+     <h1 class="text-3xl font-bold text-emerald-500" >Les Recettes du CDM</h1>
  {% endblock %}
 
-{% block title %} CDM | Accueil{% endblock %}
+{% block title %}
+{{ parent() }} | Did it before you die
+{% endblock %}
