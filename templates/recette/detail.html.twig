@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+nom de la recette | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1> A nous Assietes  {{ recette.titre }}</h1>
+
+
+    <div>Description: {{ recette.description }}</div>
+    <div>Temps de preparation: {{ recette.preparationTime }} min</div>
+    <div>Temps de preparation:{{ recette.cooktime }}min</div>
+    <div>Innvités: {{ recette.servings }}</div>
+    <div>Date de realisation {{ recette.date | date("d-m-Y ") }}</div>
+    <div> Difficulté {{ recette.difficulty }}</div>
+    <div> Producteur Local{{ recette.producer }}</div>
+    <div>{{ recette.published ? "oui" : "non" }}</div>
+    <div>{{ recette.dateCreated | date("d-m-Y H:i") }}</div>
+
+{#  todo: afichage de detail de la recette #}
+{% endblock %}
+
