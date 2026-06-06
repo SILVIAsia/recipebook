@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <title>{% block title %}Recettes du CDM!{% endblock %}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link rel="icon" href="{{ asset('images/favicomlogo.png') }}" type="image/x-icon">
+    <title>{% block title %}Recettes du CDM!{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="{{ asset('images/favicomlogo.png') }}" type="image/x-icon">
 
-        {% block stylesheets %}
-        {% endblock %}
+    {% block stylesheets %}
+    {% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 
-    </head>
+</head>
 
-    <body>
-        <header>
-            {% include("views/nav.html.twig") %}
+<body>
+<header>
+    {% include("views/nav.html.twig") %}
 
-           <a href="{{ path('main_home') }}" title="Aller a l'accueil">
-               <img src="{{ asset('images/logocdm1.png')}}">
-           </a>
+    <a href="{{ path('main_home') }}" title="Aller a l'accueil">
+        <img src="{{ asset('images/logocdm1.png') }}">
+    </a>
+
+</header>
+
+<main>
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div
+            <div class="p-4 mb-4 rounded max-w-md {{ label == 'success' ? 'bg-indigo-200 text-green-800' : 'bg-red-100 text-red-800' }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
 
-        </header>
+    {% block body %}{% endblock %}
+</main>
 
-        <main>
-            {% block body %}{% endblock %}
-        </main>
+<footer>
+    &copy; Centre de Marais {{ "now"|date("Y") }}
+</footer>
 
-        <footer>
-            &copy; Centre de Marais {{"now"|date("Y") }}
-        </footer>
-
-    </body>
+</body>
 </html>

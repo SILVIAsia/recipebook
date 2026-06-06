@@ -56,6 +56,8 @@ class Recette
 
     public function __construct()
     {
+        $this->setDateCreated(new \DateTimeImmutable());
+        $this->setDateModified(new \DateTimeImmutable());
         $this->published = false;
     }
 
