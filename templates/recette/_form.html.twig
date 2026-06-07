@@ -1,0 +1,45 @@
+{{ form_start(recetteForm, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<div class="flex gap-4 p-4">
+    <div>
+
+        {{ form_label(recetteForm.titre, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full '}}) }}
+        {{ form_widget(recetteForm.titre,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+        <div class="text-red-700"></div>{{ form_errors(recetteForm.titre) }}
+
+        {{ form_label(recetteForm.description, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.description,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+
+
+        {{ form_label(recetteForm.preparationTime, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.preparationTime,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.cooktime, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.cooktime,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.date, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.date,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.published, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.published,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.servings, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.servings,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.difficulty, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.difficulty,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.producer, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.producer,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+
+
+        {{ form_end(recetteForm) }}
+        <button type="submit" class="bg-pink-400 text-white p-2 rounded ">
+            {{ submitLabel?? 'Enregistrer' }}
+        </button>
+
+    </div>
+</div>
+

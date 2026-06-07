@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %} Modifier une recette "{{ recette.titre }}| {{ parent() }}  {% endblock %}
+
+
+{% block body %}
+    <h1>Modifier une recette</h1>
+
+
+    <div class="text-gray-600 ml-33">
+        {{ include('recette/_form.html.twig', {submitLabel: "Modifier la recette"} ) }}
+    </div>
+
+
+
+{% endblock %}
+
