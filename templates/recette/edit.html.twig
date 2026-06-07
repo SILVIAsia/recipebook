@@ -12,6 +12,13 @@
         {{ include('recette/_form.html.twig', {submitLabel: "Modifier la recette"} ) }}
     </div>
 
+    {% if recette.picture %}
+        <div>
+            <img src="{{ asset('uploads/images/'~recette.picture) }}"
+                 alt="Representation de recette {{ recette.titre }}"
+                 class="w-80 h-80 object-cover rounded">
+        </div>
+    {% endif %}
 
 
 {% endblock %}

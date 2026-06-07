@@ -7,9 +7,11 @@ use App\Form\RecetteType;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/recette')]
 final class RecetteController extends AbstractController
@@ -29,7 +31,7 @@ final class RecetteController extends AbstractController
 
 
     #[Route('/creer', name: 'recette_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         //cree une instance de recette
         $recette = new Recette();
@@ -39,29 +41,45 @@ final class RecetteController extends AbstractController
         $recetteForm->handleRequest($request);
         // si le form est soumis
         if ($recetteForm->isSubmitted() && $recetteForm->isValid()) {
-            // on garde dans bdd pour faire un insert on utilise el em o el repository
-            // debo pedirle a synfony el $em de me le passer mas arriba
-            $entityManager->persist($recette);
-            $entityManager->flush();
+
+            $uploadImage = $recetteForm->get('picture')->getData();
+            if ($uploadImage) {
+                $originalFilename = pathinfo($uploadImage->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadImage->guessExtension();
+
+                    try {
+                        $uploadImage->move($this->getParameter('upload_directory'), $newFilename);
+                        $recette->setPicture($newFilename);
+                    } catch (FileException $exception)
+                    {
+                      dd($exception);
+
+                    }
+                }
+
+            $entityManager->persist($recette); // on garde dans bdd pour faire un insert on utilise el em o el repository
+            $entityManager->flush();            // debo pedirle a synfony el $em de me le passer mas arriba
+
 
             //crée un message qui v  si afficcher une seule fois sur la prochaine page
-            $this->addFlash('success',"Bravo ta recette a été crée!!");
+            $this->addFlash('success', "Bravo ta recette a été crée!!");
 
             //redirige versla page de details de recette
             return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
 
         }
 
-        return $this->render('recette/create.html.twig', [
-            //passe le formulaire a twig
-            "recetteForm" => $recetteForm,
-        ]);
-    }
+            return $this->render('recette/create.html.twig', [
+                //passe le formulaire a twig
+                "recetteForm" => $recetteForm,
+            ]);
+        }
 
 
-
-
-    #[Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
+        #[
+        Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
     public function edit(Recette $recette, Request $request, EntityManagerInterface $entityManager): Response
     {
 
@@ -77,7 +95,7 @@ final class RecetteController extends AbstractController
             $entityManager->flush();
 
             //crée un message qui v  si afficcher une seule fois sur la prochaine page
-            $this->addFlash('success',"Bravo votre recette a été modifié!!");
+            $this->addFlash('success', "Bravo votre recette a été modifié!!");
 
             //redirige versla page de details de recette
             return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
@@ -92,29 +110,28 @@ final class RecetteController extends AbstractController
     }
 
 
-   #[Route('/{id}/delete/{token}', name: 'recette_delete', requirements:["id" => "\d+"], methods: ['GET','POST',])]
+   #[Route('/{id}/delete/{token}', name: 'recette_delete', requirements: ["id" => "\d+"], methods: ['GET', 'POST',])]
    public function delete(Recette $recette, EntityManagerInterface $entityManager, $token): Response
-   {
+    {
 
-      if ($this->isCsrfTokenValid(
-          'delete'. $recette->getId(), $token))
-     {
+        if ($this->isCsrfTokenValid(
+            'delete' . $recette->getId(), $token)) {
 
-           $entityManager->remove($recette);
-           $entityManager->flush();
+            $entityManager->remove($recette);
+            $entityManager->flush();
 
-           $this->addFlash('success', "La recette a été supprimé!!");
-           return $this->redirectToRoute('recette_list');
-       }
-       $this ->addFlash("danger", "Vous pouvez pas eliminer la rectte");
-       return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
-   }
+            $this->addFlash('success', "La recette a été supprimé!!");
+            return $this->redirectToRoute('recette_list');
+        }
+        $this->addFlash("danger", "Vous pouvez pas eliminer la rectte");
+        return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
+    }
 
     // c'est ma list  de toutes les  recettes
     #[Route('/{id}', name: 'recette_detail')]
     public function detail($id, RecetteRepository $recetteRepository): Response
     {
-        $recette = $recetteRepository->findOneBy(["published" => true, "id" => $id]);
+        $recette = $recetteRepository->find($id);
         //va chercher le detail en bdd
 
         if (!$recette) {

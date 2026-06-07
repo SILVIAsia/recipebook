@@ -7,6 +7,13 @@ nom de la recette | {{ parent() }}
 {% block body %}
     <h1> A nous Assietes  {{ recette.titre }}</h1>
 
+    {% if recette.picture %}
+    <div>
+        <img src="{{ asset('uploads/images/'~recette.picture) }}"
+             alt="Representation de recette {{ recette.titre }}"
+             class="w-120 h-120 object-cover rounded">
+    </div>
+    {% endif %}
 
     <div>Description: {{ recette.description }}</div>
     <div>Temps de preparation: {{ recette.preparationTime }} min</div>

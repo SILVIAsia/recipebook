@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RecetteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use http\Message;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -35,6 +36,7 @@ class Recette
     #[ORM\Column(nullable: true)]
     private ?int $servings = null;
 
+    #[Assert\NotNull(message:'La date est obligatoire')]
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $date = null;
 
@@ -64,6 +66,7 @@ class Recette
 
     public function __construct()
     {
+
         $this->setDateCreated(new \DateTimeImmutable());
         $this->setDateModified(new \DateTimeImmutable());
         $this->published = false;
@@ -166,7 +169,7 @@ class Recette
         return $this->difficulty;
     }
 
-    public function setDifficulty(string $difficulty): static
+    public function setDifficulty(?string $difficulty): static
     {
         $this->difficulty = $difficulty;
 

@@ -10,60 +10,81 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class RecetteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('titre', TextType::class,[
-                'label' => 'Ma recette',
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
+            $recette = $event->getData();
+            $form = $event->getForm();
+
+            if ($recette && $recette->getPicture()) {
+                $form->add('deleteCb', CheckboxType::class, [
+                    'mapped' => false,
+                    'label' => 'Check si vous couliez suprimer image',
+                    'required' => false,
+                ]);
+
+            }
+        });
+
+            $builder
+                ->add('titre', TextType::class, [
+                    'label' => 'Ma recette',
                 ])
-
-            ->add('description',TextareaType::class,[
-                'label' => 'Description rapide'
-            ])
-            ->add('cooktime' ,IntegerType::class,[
-                'label' => 'Temp de Cuisson'
-            ])
-            ->add('preparationTime', IntegerType::class,[
-                'label' => 'Temp de Preparation'
-            ])
-
-            ->add('servings', IntegerType::class,[
-                'label'=>'portions'
-            ])
-            ->add('date', null, [
-                'widget' => 'single_text',
-                'label' => 'Date de preparation',
+                ->add('description', TextareaType::class, [
+                    'label' => 'Description rapide'
                 ])
-
-            ->add('published' ,CheckboxType::class,[
-                'label' => 'Publier la recette',
-                'required' => false,
-            ])
-            ->add('picture', FileType::class,[
-            'label' => 'Photo de l\'evenement (png,jpeg)',
-                'mapped' => false,
-                'required' => false,
+                ->add('cooktime', IntegerType::class, [
+                    'label' => 'Temp de Cuisson'
                 ])
-            ->add('difficulty', ChoiceType::class, [
-                'label' => 'Niveau de difficulté',
-                'choices' => [
-                    'Facile' => 'facile',
-                    'Moyen' => 'moyen',
-                    'Difficile' => 'difficile',
-                ],
-                'placeholder' => 'Choisir un niveau',
-            ])
+                ->add('preparationTime', IntegerType::class, [
+                    'label' => 'Temp de Preparation'
+                ])
+                ->add('servings', IntegerType::class, [
+                    'label' => 'portions'
+                ])
+                ->add('date', null, [
+                    'widget' => 'single_text',
+                    'label' => 'Date de preparation',
+                ])
+                ->add('published', CheckboxType::class, [
+                    'label' => 'Publier la recette',
+                    'required' => false,
+                ])
+                ->add('picture', FileType::class, [
+                    'label' => 'Photo de l\'recette (png,jpeg)',
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new Image([
+                            'maxSize' => '6000K',
+                            'mimeTypes' => ['image/png', 'image/jpeg', 'image/webp',],
+                            'mimeTypesMessage' => 'Please upload a valid PNG or JPEG file',
+                        ])
+                    ]
+
+                ])
+                ->add('difficulty', ChoiceType::class, [
+                    'label' => 'Niveau de difficulté',
+                    'choices' => [
+                        'Facile' => 'facile',
+                        'Moyen' => 'moyen',
+                        'Difficile' => 'difficile',
+                    ],
+                    'placeholder' => 'Choisir un niveau',
+                ])
+                ->add('producer', TextType::class, [
+                    'label' => 'Producteur Local',
+                ]);
 
 
-            ->add('producer',TextType::class,[
-                'label' => 'Producteur Local',
-            ])
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
