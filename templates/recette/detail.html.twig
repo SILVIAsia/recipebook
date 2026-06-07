@@ -18,6 +18,16 @@ nom de la recette | {{ parent() }}
     <div>{{ recette.published ? "oui" : "non" }}</div>
     <div>{{ recette.dateCreated | date("d-m-Y H:i") }}</div>
 
+
+    <div>
+        <a href="{{ path('recette_edit', {id:recette.id}) }}" class="bg-pink-400 text-white p-2 rounded">Modifier</a>
+
+        <a href="{{ path('recette_delete', {
+            'id': recette.id,
+            'token': csrf_token('delete' ~ recette.id)
+        }) }}" class="bg-pink-400 text-white p-2 rounded">  Supprimer</a>
+    </div>
+
 {#  todo: afichage de detail de la recette #}
 {% endblock %}
 

@@ -5,7 +5,11 @@ namespace App\Entity;
 use App\Repository\RecetteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
+
+#[UniqueEntity('titre',message: 'Cette recette existe dejà')]
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
 class Recette
 {
@@ -14,14 +18,17 @@ class Recette
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Ne peut pas être vide")]
+    #[Assert\Length(min: 2, max: 180, minMessage: "Le titre de la recette doit avoir au moins 3 caractères! ")]
+    #[ORM\Column(length: 180)]
     private ?string $titre = null;
 
+    #[Assert\NotBlank(message: "Ne peut pas être vide")]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
 
-
+    #[Assert\GreaterThan("0")]
     #[ORM\Column]
     private ?int $cooktime = null;
 
@@ -47,6 +54,7 @@ class Recette
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $dateModified = null;
 
+    #[Assert\GreaterThan("0")]
     #[ORM\Column]
     private ?int $preparationTime = null;
 

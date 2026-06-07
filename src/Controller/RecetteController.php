@@ -35,15 +35,12 @@ final class RecetteController extends AbstractController
         $recette = new Recette();
         //cree le formulaire
         $recetteForm = $this->createForm(RecetteType::class, $recette);
-
         //traite le formulaire
         $recetteForm->handleRequest($request);
-
         // si le form est soumis
-        if ($recetteForm->isSubmitted()) {
+        if ($recetteForm->isSubmitted() && $recetteForm->isValid()) {
             // on garde dans bdd pour faire un insert on utilise el em o el repository
             // debo pedirle a synfony el $em de me le passer mas arriba
-
             $entityManager->persist($recette);
             $entityManager->flush();
 
@@ -53,17 +50,67 @@ final class RecetteController extends AbstractController
             //redirige versla page de details de recette
             return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
 
-
         }
 
         return $this->render('recette/create.html.twig', [
-
             //passe le formulaire a twig
             "recetteForm" => $recetteForm,
         ]);
     }
 
-    // c'est mon show de losotros projectos
+
+
+
+    #[Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
+    public function edit(Recette $recette, Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        //cree le formulaire
+        $recetteForm = $this->createForm(RecetteType::class, $recette);
+        //traite le formulaire
+        $recetteForm->handleRequest($request);
+        // si le form est soumis
+        if ($recetteForm->isSubmitted() && $recetteForm->isValid()) {
+            // on garde dans bdd pour faire un insert on utilise el em o el repository
+            // debo pedirle a synfony el $em de me le passer mas arriba
+            $entityManager->persist($recette);
+            $entityManager->flush();
+
+            //crée un message qui v  si afficcher une seule fois sur la prochaine page
+            $this->addFlash('success',"Bravo votre recette a été modifié!!");
+
+            //redirige versla page de details de recette
+            return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
+
+        }
+
+        return $this->render('recette/edit.html.twig', [
+            "recette" => $recette,
+            //passe le formulaire a twig
+            "recetteForm" => $recetteForm,
+        ]);
+    }
+
+
+   #[Route('/{id}/delete/{token}', name: 'recette_delete', requirements:["id" => "\d+"], methods: ['GET','POST',])]
+   public function delete(Recette $recette, EntityManagerInterface $entityManager, $token): Response
+   {
+
+      if ($this->isCsrfTokenValid(
+          'delete'. $recette->getId(), $token))
+     {
+
+           $entityManager->remove($recette);
+           $entityManager->flush();
+
+           $this->addFlash('success', "La recette a été supprimé!!");
+           return $this->redirectToRoute('recette_list');
+       }
+       $this ->addFlash("danger", "Vous pouvez pas eliminer la rectte");
+       return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
+   }
+
+    // c'est ma list  de toutes les  recettes
     #[Route('/{id}', name: 'recette_detail')]
     public function detail($id, RecetteRepository $recetteRepository): Response
     {

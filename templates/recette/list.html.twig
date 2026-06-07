@@ -1,34 +1,55 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Toutes les recettes | {{  parent () }}
+    Toutes les recettes | {{ parent () }}
 {% endblock %}
+
+
 
 {% block body %}
- <h1> Toutes mes recettes</h1>
+    <article class=" grid grid-cols-1 gap-4 text-slate-500 ml-35 mr-35  ">
+        <h1 class="text-[3rem]">Toutes mes recettes {{ parent() }}</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-        <td>Titre</td>
-            <td>Temps de coocion </td>
-        <td> Date </td>
-        </tr>
-        </thead>
-
-        <tbody>
         {% for recette in recettes %}
-        <tr>
-            <td><a href="{{ path('recette_detail', {id: recette.id}) }}" title ="voir le détail de la recette"> {{ recette.titre }}</a></td>
-            <td>{{ recette.cooktime }}</td>
-            <td> {{ recette.dateCreated | date ("d-m-y")}}</td>
-        </tr>
+
+            <div class="flex gap-8 mt-4 border border-gray-300 rounded p-4">
+                <div class="w-1/4">
+                    <p class="font-bold ">Recette</p>
+                    <a href="{{ path('recette_detail', {id: recette.id}) }}"
+                       title="voir le détail de la recette"> {{ recette.titre }}</a>
+                </div>
+
+                <div>
+                    <p class="font-bold">Temps de cuisson</p>
+                    <p>{{ recette.cookTime }} </p>
+                </div>
+
+                <div>
+                    <p class="font-bold">Temps de préparation</p>
+                    <p>{{ recette.preparationTime }} </p>
+                </div>
+
+                <div>
+                    <p class="font-bold">Date creation</p>
+                    <p>{{ recette.dateCreated | date ("d-m-y") }}</p>
+                </div>
+
+                <div>
+                    <p class="font-bold ">Modifier</p>
+                    <a href="{{ path('recette_edit', {id: recette.id}) }}"
+                       title="modifier la recette"> {{ recette.titre }}</a>
+                </div>
+
+
+
+
+            </div>
+
+
         {% endfor %}
-        </tbody>
 
 
-    </table>
+    </article>
 {% endblock %}
-
 
 
