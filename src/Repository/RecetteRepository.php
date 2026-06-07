@@ -36,6 +36,7 @@ class RecetteRepository extends ServiceEntityRepository
       //  $qb es mi queryBuilder
         $qb = $this->createQueryBuilder('r');
         $qb->andWhere('r.cooktime < :maxcooktime')->setParameter('maxcooktime', $maximumcooktime);
+        $qb->andWhere('r.published  =true');
         $qb->orderBy('r.dateCreated', 'DESC');
 
         $query = $qb->getQuery();
