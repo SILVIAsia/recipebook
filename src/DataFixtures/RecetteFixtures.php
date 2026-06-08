@@ -107,7 +107,6 @@ $manager->flush();
                 PlaceFixtures::class,
                 ActivityFixtures::class,
                 StatusFixtures::class,
-                StepFixtures::class,
 
         ];
     }
