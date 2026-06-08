@@ -1,9 +1,8 @@
 
-<nav>
-    <a href="{{ path('main_home') }}">Accueil</a>
-    <a href="{{ path('main_test') }}">Testounet</a>
-    <a href="{{ path('recette_list') }}">Recettes</a>
-    <a href="{{ path('main_projet') }}">Le Projet</a>
-    <a href="{{ path('recette_create') }}">Nouvelle Recette</a>
-
+<nav class="bg-indigo-200 p-4 flex gap-6 items-center">
+    <a href="{{ path('main_home') }}" class="text-white font-semibold hover:text-pink-100">Accueil</a>
+    <a href="{{ path('main_test') }}" class="text-white font-semibold hover:text-pink-100">Testounet</a>
+    <a href="{{ path('recette_list') }}" class="text-white font-semibold hover:text-pink-100">Recettes</a>
+    <a href="{{ path('main_projet') }}" class="text-white font-semibold hover:text-pink-100">Le Projet</a>
+    <a href="{{ path('recette_create') }}" class="bg-white text-pink-400 font-semibold px-4 py-2 rounded hover:bg-pink-100">Nouvelle Recette</a>
 </nav>

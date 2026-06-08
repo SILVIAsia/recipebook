@@ -41,8 +41,8 @@ class Recette
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $date = null;
 
-    #[ORM\Column(nullable: true, options: ['default' =>false])]
-    private ?bool $published = null;
+//    #[ORM\Column(nullable: true, options: ['default' =>false])]
+  //  private ?bool $published = null;
 
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -100,7 +100,7 @@ class Recette
 
         $this->setDateCreated(new \DateTimeImmutable());
         $this->setDateModified(new \DateTimeImmutable());
-        $this->published = false;
+  //      $this->published = false;
         $this->ingredients = new ArrayCollection();
         $this->steps = new ArrayCollection();
     }
@@ -173,7 +173,7 @@ class Recette
         return $this;
     }
 
-    public function isPublished(): ?bool
+  /* public function isPublished(): ?bool
     {
         return $this->published;
     }
@@ -183,7 +183,7 @@ class Recette
         $this->published = $published;
 
         return $this;
-    }
+    }*/
 
     public function getPicture(): ?string
     {

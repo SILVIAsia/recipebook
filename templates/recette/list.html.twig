@@ -7,8 +7,8 @@
 
 
 {% block body %}
-    <article class=" grid grid-cols-1 gap-4 text-slate-500 ml-35 mr-35  ">
-        <h1 class="text-[3rem]">Toutes mes recettes {{ parent() }}</h1>
+    <article class=" grid grid-cols-1 gap-4 text-slate-500 ml-35 mr-35 mb-15 ">
+        <h1 class="text-[3rem]">Toutes Les Recettes {{ parent() }}</h1>
 
         {% for recette in recettes %}
 
@@ -20,6 +20,17 @@
                 </div>
 
                 <div>
+                    <p class="font-bold">Categorie</p>
+                    <p>{{ recette.category.nameCategory }}</p>
+                </div>
+
+                <div>
+                    <p class="font-bold">Auteur</p>
+                    <p>{{ recette.user ? recette.user.userName : 'Non défini' }}</p>
+                </div>
+
+
+                <div>
                     <p class="font-bold">Temps de cuisson</p>
                     <p>{{ recette.cookTime }} </p>
                 </div>
@@ -29,10 +40,16 @@
                     <p>{{ recette.preparationTime }} </p>
                 </div>
 
+
+
+
                 <div>
                     <p class="font-bold">Date creation</p>
                     <p>{{ recette.dateCreated | date ("d-m-y") }}</p>
                 </div>
+
+
+
 
                 <div>
                     <p class="font-bold ">Modifier</p>

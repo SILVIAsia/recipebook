@@ -21,16 +21,9 @@ class Activity
     #[ORM\Column(length: 255)]
     private ?string $public = null;
 
-    /**
-     * @var Collection<int, Recette>
-     */
-    #[ORM\OneToMany(targetEntity: Recette::class, mappedBy: 'activity')]
-    private Collection $recettes;
 
-    public function __construct()
-    {
-        $this->recettes = new ArrayCollection();
-    }
+
+
 
 
 

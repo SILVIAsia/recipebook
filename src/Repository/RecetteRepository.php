@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Recette;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -31,17 +32,19 @@ class RecetteRepository extends ServiceEntityRepository
          return $query->getResult();
      }*/
 
-    public function findLastRecettes(int $maximumcooktime = 65): array
+    public function findLastRecettes(): Paginator
     {
-      //  $qb es mi queryBuilder
         $qb = $this->createQueryBuilder('r');
-        $qb->andWhere('r.cooktime < :maxcooktime')->setParameter('maxcooktime', $maximumcooktime);
-        $qb->andWhere('r.published  =true');
+        $qb->leftJoin('r.category', 'c')->addSelect('c')
+            ->leftJoin('r.user', 'u')->addSelect('u')
+            ->leftJoin('r.status', 's')->addSelect('s')
+            ->leftJoin('r.season', 'se')->addSelect('se')
+            ->leftJoin('r.activity', 'a')->addSelect('a')
+            ->leftJoin('r.place', 'p')->addSelect('p');
         $qb->orderBy('r.dateCreated', 'DESC');
-
         $query = $qb->getQuery();
-        $query->setMaxResults(60);
-        return $query->getResult();
+        $query->setMaxResults(10);
+        return new Paginator($query);
     }
 
     //    /**

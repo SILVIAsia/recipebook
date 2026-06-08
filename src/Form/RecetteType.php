@@ -2,7 +2,14 @@
 
 namespace App\Form;
 
+
+use App\Entity\Status;
+use App\Entity\Season;
+use App\Entity\Activity;
+use App\Entity\Place;
+use App\Entity\Category;
 use App\Entity\Recette;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -54,11 +61,43 @@ class RecetteType extends AbstractType
                     'widget' => 'single_text',
                     'label' => 'Date de preparation',
                 ])
-                ->add('published', CheckboxType::class, [
-                    'label' => 'Publier la recette',
-                    'required' => false,
+
+                ->add('category', EntityType::class, [
+                    'class' => Category::class,
+                    'choice_label' => 'nameCategory',
+                    'label' => 'Category',
+                    'placeholder' => 'Seleccioner une categorie'
                 ])
-                ->add('picture', FileType::class, [
+
+
+
+                ->add('status', EntityType::class, [
+                    'class' => Status::class,
+                    'choice_label' => 'nameStatus',
+                    'label' => 'Statut',
+                    'placeholder' => 'Choisir un statut'
+                ])
+                ->add('season', EntityType::class, [
+                    'class' => Season::class,
+                    'choice_label' => 'nameSeason',
+                    'label' => 'Saison',
+                    'placeholder' => 'Choisir une saison'
+                ])
+                ->add('activity', EntityType::class, [
+                    'class' => Activity::class,
+                    'choice_label' => 'nameActivity',
+                    'label' => 'Activité',
+                    'placeholder' => 'Choisir une activité'
+                ])
+                ->add('place', EntityType::class, [
+                    'class' => Place::class,
+                    'choice_label' => 'namePlace',
+                    'label' => 'Lieu',
+                    'placeholder' => 'Choisir un lieu'
+                ])
+
+
+        ->add('picture', FileType::class, [
                     'label' => 'Photo de l\'recette (png,jpeg)',
                     'mapped' => false,
                     'required' => false,

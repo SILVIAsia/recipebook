@@ -22,7 +22,7 @@ class UserFixtures extends Fixture
         $faker = Factory::create('fr-FR');
 
 
-        for($i=0; $i<50; $i++){
+        for($i=0; $i<20; $i++){
         $user = new User();
         $hashedPassword= $this->passwordHasher->hashPassword(
             $user,

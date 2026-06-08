@@ -43,7 +43,7 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
             $recette->setDate(\DateTimeImmutable::createFromMutable($faker->dateTime()));
             $recette->setDifficulty($faker->numberBetween(1, 3));
             $recette->setProducer($faker->name());
-            $recette->setPublished($faker->boolean(chanceOfGettingTrue: 70));
+         //   $recette->setPublished($faker->boolean(chanceOfGettingTrue: 70));
             $categories = ['Dessert', 'Plat', 'Entrée'];
             $recette->setCategory($this->getReference(
                 CategoryFixtures::CATEGORY_REFERENCE . $faker->randomElement($categories),
@@ -51,7 +51,7 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
             ));
 
             $recette->setUser($this->getReference(
-                UserFixtures::USER_REFERENCE . $faker->numberBetween(0, 49),
+                UserFixtures::USER_REFERENCE . $faker->numberBetween(0, 19),
                 User::class
             ));
 

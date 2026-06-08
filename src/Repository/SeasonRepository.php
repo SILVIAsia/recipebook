@@ -15,7 +15,19 @@ class SeasonRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Season::class);
     }
-
+    public function findBySeason(Season $season): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->leftJoin('r.category', 'c')->addSelect('c')
+            ->leftJoin('r.user', 'u')->addSelect('u')
+            ->leftJoin('r.status', 's')->addSelect('s')
+            ->leftJoin('r.season', 'se')->addSelect('se')
+            ->leftJoin('r.activity', 'a')->addSelect('a')
+            ->leftJoin('r.place', 'p')->addSelect('p');
+        $qb->andWhere('r.season = :season')->setParameter('season', $season);
+        $qb->orderBy('r.dateCreated', 'DESC');
+        return $qb->getQuery()->getResult();
+    }
     //    /**
     //     * @return Season[] Returns an array of Season objects
     //     */

@@ -1,40 +1,62 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-nom de la recette | {{ parent() }}
+    nom de la recette | {{ parent() }}
 {% endblock %}
 
 {% block body %}
-    <h1> A nous Assietes  {{ recette.titre }}</h1>
 
-    {% if recette.picture %}
-    <div>
-        <img src="{{ asset('uploads/images/'~recette.picture) }}"
-             alt="Representation de recette {{ recette.titre }}"
-             class="w-120 h-120 object-cover rounded">
+    <div class="flex gap-6 p-6 pb-6">
+
+        <div class="w-1/2">
+            <h1 class="text-3xl font-bold text-pink-500 mb-4">{{ recette.titre }}</h1>
+            <div class="space-y-2 mb-6">
+                <div><span class="font-semibold">Description:</span> {{ recette.description }}</div>
+                <div><span class="font-semibold">Temps de préparation:</span> {{ recette.preparationTime }} min</div>
+
+                <div><span class="font-semibold">Temps de cuisson:</span> {{ recette.cooktime }} min</div>
+                <div><span class="font-semibold">Portions:</span> {{ recette.servings }}</div>
+                <div><span class="font-semibold">Date de réalisation:</span> {{ recette.date | date("d-m-Y") }}</div>
+                <div><span class="font-semibold">Difficulté:</span> {{ recette.difficulty }}</div>
+
+                <div><span class="font-semibold">Producteur local:</span> {{ recette.producer }}</div>
+                <div><span class="font-semibold">Créé le:</span> {{ recette.dateCreated | date("d-m-Y H:i") }}</div>
+                <div><span class="font-semibold">Catégorie:</span> {{ recette.category.nameCategory }}</div>
+                <div><span class="font-semibold">Statut:</span> {{ recette.status.nameStatus }}</div>
+                <div><span class="font-semibold">Saison:</span> {{ recette.season.nameSeason }}</div>
+                <div><span class="font-semibold">Activité:</span> {{ recette.activity.nameActivity }}</div>
+                <div><span class="font-semibold">Lieu:</span> {{ recette.place.namePlace }}</div>
+
+                <div><span class="font-semibold">Animateur:</span> {{ recette.user ? recette.user.userName : 'Non défini' }}</div>
+            </div>
+        </div>
+
+
+        <div class="w-1/2 h-96 rounded-lg overflow-hidden bg-slate-200 flex items-center justify-center p-6 ml-auto">
+
+            {% if recette.picture %}
+                <img src="{{ asset('uploads/images/'~recette.picture) }}"
+                     alt="{{ recette.titre }}"
+                     class="w-full h-full object-cover">
+            {% else %}
+                <span class="text-slate-400">Pas de photo</span>
+            {% endif %}
+        </div>
+
     </div>
-    {% endif %}
 
-    <div>Description: {{ recette.description }}</div>
-    <div>Temps de preparation: {{ recette.preparationTime }} min</div>
-    <div>Temps de preparation:{{ recette.cooktime }}min</div>
-    <div>Innvités: {{ recette.servings }}</div>
-    <div>Date de realisation {{ recette.date | date("d-m-Y ") }}</div>
-    <div> Difficulté {{ recette.difficulty }}</div>
-    <div> Producteur Local{{ recette.producer }}</div>
-    <div>{{ recette.published ? "oui" : "non" }}</div>
-    <div>{{ recette.dateCreated | date("d-m-Y H:i") }}</div>
-
-
-    <div>
-        <a href="{{ path('recette_edit', {id:recette.id}) }}" class="bg-pink-400 text-white p-2 rounded">Modifier</a>
+    <div class="mt-0 mb-10 ml-6 ">
+        <a href="{{ path('recette_edit', {id:recette.id}) }}"
+           class="bg-pink-400 text-white p-2 rounded ">Modifier</a>
 
         <a href="{{ path('recette_delete', {
             'id': recette.id,
             'token': csrf_token('delete' ~ recette.id)
-        }) }}" class="bg-pink-400 text-white p-2 rounded">  Supprimer</a>
+        }) }}" class="bg-pink-400 text-white p-2 rounded"> Supprimer</a>
     </div>
 
-{#  todo: afichage de detail de la recette #}
+
+
+
 {% endblock %}
 
