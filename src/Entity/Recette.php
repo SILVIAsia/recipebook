@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\RecetteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use http\Message;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,6 +64,36 @@ class Recette
     #[ORM\Column(length: 255)]
     private ?string $producer = null;
 
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    private ?Status $status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    private ?Season $season = null;
+
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    private ?Activity $activity = null;
+
+    /**
+     * @var Collection<int, Ingredient>
+     */
+    #[ORM\OneToMany(targetEntity: Ingredient::class, mappedBy: 'recette', orphanRemoval: true)]
+    private Collection $ingredients;
+
+    /**
+     * @var Collection<int, Step>
+     */
+    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'recette', orphanRemoval: true)]
+    private Collection $steps;
+
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    private ?Place $place = null;
+
 
     public function __construct()
     {
@@ -70,6 +101,8 @@ class Recette
         $this->setDateCreated(new \DateTimeImmutable());
         $this->setDateModified(new \DateTimeImmutable());
         $this->published = false;
+        $this->ingredients = new ArrayCollection();
+        $this->steps = new ArrayCollection();
     }
 
 
@@ -220,6 +253,138 @@ class Recette
     public function setProducer(string $producer): static
     {
         $this->producer = $producer;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getSeason(): ?Season
+    {
+        return $this->season;
+    }
+
+    public function setSeason(?Season $season): static
+    {
+        $this->season = $season;
+
+        return $this;
+    }
+
+    public function getActivity(): ?Activity
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(?Activity $activity): static
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ingredient>
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Ingredient $ingredient): static
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients->add($ingredient);
+            $ingredient->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Ingredient $ingredient): static
+    {
+        if ($this->ingredients->removeElement($ingredient)) {
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getRecette() === $this) {
+                $ingredient->setRecette(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Step>
+     */
+    public function getSteps(): Collection
+    {
+        return $this->steps;
+    }
+
+    public function addStep(Step $step): static
+    {
+        if (!$this->steps->contains($step)) {
+            $this->steps->add($step);
+            $step->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStep(Step $step): static
+    {
+        if ($this->steps->removeElement($step)) {
+            // set the owning side to null (unless already changed)
+            if ($step->getRecette() === $this) {
+                $step->setRecette(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlace(): ?Place
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): static
+    {
+        $this->place = $place;
 
         return $this;
     }

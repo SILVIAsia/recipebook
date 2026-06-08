@@ -41,7 +41,6 @@ final class RecetteController extends AbstractController
         $recetteForm->handleRequest($request);
         // si le form est soumis
         if ($recetteForm->isSubmitted() && $recetteForm->isValid()) {
-
             $uploadImage = $recetteForm->get('picture')->getData();
             if ($uploadImage) {
                 $originalFilename = pathinfo($uploadImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -49,15 +48,17 @@ final class RecetteController extends AbstractController
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadImage->guessExtension();
 
-                    try {
-                        $uploadImage->move($this->getParameter('upload_directory'), $newFilename);
-                        $recette->setPicture($newFilename);
-                    } catch (FileException $exception)
-                    {
-                      dd($exception);
+                try {
+                    $uploadImage->move($this->getParameter('upload_directory'), $newFilename);
+                    $recette->setPicture($newFilename);
+                } catch (FileException $exception)
+                {
+                    dd($exception);
 
-                    }
                 }
+            }
+
+
 
             $entityManager->persist($recette); // on garde dans bdd pour faire un insert on utilise el em o el repository
             $entityManager->flush();            // debo pedirle a synfony el $em de me le passer mas arriba
@@ -80,7 +81,7 @@ final class RecetteController extends AbstractController
 
         #[
         Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
-    public function edit(Recette $recette, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(Recette $recette, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
 
         //cree le formulaire
@@ -91,6 +92,31 @@ final class RecetteController extends AbstractController
         if ($recetteForm->isSubmitted() && $recetteForm->isValid()) {
             // on garde dans bdd pour faire un insert on utilise el em o el repository
             // debo pedirle a synfony el $em de me le passer mas arriba
+
+
+            if($recetteForm->has('deleteCb') && $recetteForm->get('deleteCb')->getData()) {
+                unlink($this ->getParameter('upload_directory').'/'.$recette->getPicture());
+                $recette->setPicture(null);
+                $this->addFlash('success', 'Image supprimée avec succès!');
+            }
+
+            $uploadImage = $recetteForm->get('picture')->getData();
+            if ($uploadImage) {
+                $originalFilename = pathinfo($uploadImage->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $uploadImage->guessExtension();
+
+                try {
+                    $uploadImage->move($this->getParameter('upload_directory'), $newFilename);
+                    $recette->setPicture($newFilename);
+                } catch (FileException $exception)
+                {
+                    dd($exception);
+
+                }
+            }
+
             $entityManager->persist($recette);
             $entityManager->flush();
 

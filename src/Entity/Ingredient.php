@@ -22,6 +22,10 @@ class Ingredient
     #[ORM\Column(length: 50)]
     private ?string $unit = null;
 
+    #[ORM\ManyToOne(inversedBy: 'ingredients')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Recette $recette = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Ingredient
     public function setUnit(string $unit): static
     {
         $this->unit = $unit;
+
+        return $this;
+    }
+
+    public function getRecette(): ?Recette
+    {
+        return $this->recette;
+    }
+
+    public function setRecette(?Recette $recette): static
+    {
+        $this->recette = $recette;
 
         return $this;
     }
