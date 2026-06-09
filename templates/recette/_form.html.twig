@@ -67,13 +67,20 @@
                         {{ form_widget(ingredient.quantity, {'attr': {'class': 'bg-slate-100 rounded-lg px-4 py-2 text-black w-24'}}) }}
                         {{ form_widget(ingredient.unit, {'attr': {'class': 'bg-slate-100 rounded-lg px-4 py-2 text-black w-24'}}) }}
                         {% do ingredient.setRendered() %}
-                        <button type="button" class="remove-item bg-red-500 text-white px-3 py-2 rounded ml-2">Supprimer
-                        </button>
+
+                        {% if ingredient.vars.data.id %}
+                            <a href="{{ path('ingredient_delete', {id: ingredient.vars.data.id}) }}" class="bg-red-500 text-white px-3 py-2 rounded ml-2">Supprimer</a>
+                        {% endif %}
                     </div>
+
+
                 {% endfor %}
             </div>
-            <button type="button" id="add-ingredient" class="bg-pink-400 text-white p-2 rounded mt-2">+ Ingrédient
-            </button>
+
+
+
+
+
         </div>
 
         {# Étapes #}
@@ -81,13 +88,15 @@
             <p class="bg-slate-200 rounded p-2 w-full mb-2 mt-6">Étapes</p>
             <div id="steps-collection"
                  data-prototype="{{ form_widget(recetteForm.steps.vars.prototype) | e('html_attr') }}">
+
                 {% for step in recetteForm.steps %}
                     <div class="step-item flex gap-2 mb-2 w-full">
                         {{ form_widget(step.number, {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 text-black w-24'}}) }}
                         {{ form_widget(step.description, {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 text-black flex-1'}}) }}
                         {% do step.setRendered() %}
-                        <button type="button" class="remove-item bg-red-500 text-white px-3 py-2 rounded">Supprimer
-                        </button>
+                        {% if step.vars.data.id %}
+                            <a href="{{ path('step_delete', {id: step.vars.data.id}) }}" class="bg-red-500 text-white px-3 py-2 rounded ml-2">Supprimer</a>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -95,7 +104,7 @@
         </div>
 
 
-        <button type="submit" class="bg-pink-400 text-white p-2 rounded mt-6 mb-10">
+        <button type="submit" class="bg-pink-400 text-white p-2 rounded mt-6 mb-10 ml-auto block ">
             {{ submitLabel?? 'Enregistrer' }}
         </button>
 

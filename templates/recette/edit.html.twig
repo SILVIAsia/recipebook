@@ -8,9 +8,11 @@
     <h1>Modifier une recette</h1>
 
 
-    <div class="text-gray-600 ml-33">
+
+    <div class="text-gray-600 ml-33 ">
         {{ include('recette/_form.html.twig', {submitLabel: "Modifier la recette"} ) }}
     </div>
+    <a href="{{ path('ingredient_add', {recetteId: recette.id}) }}" class="bg-pink-400 text-white p-2 rounded mt-2 ">+ Ingrédient</a>
 
     {% if recette.picture %}
         <div>
