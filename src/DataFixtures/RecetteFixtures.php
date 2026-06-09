@@ -51,7 +51,7 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
             ));
 
             $recette->setUser($this->getReference(
-                UserFixtures::USER_REFERENCE . $faker->numberBetween(0, 19),
+                UserFixtures::USER_REFERENCE . $faker->numberBetween(0, 100),
                 User::class
             ));
 

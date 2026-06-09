@@ -18,14 +18,17 @@ class Activity
     #[ORM\Column(length: 255)]
     private ?string $nameActivity = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $public = null;
 
+    /**
+     * @var Collection<int, Recette>
+     */
+    #[ORM\OneToMany(targetEntity: Recette::class, mappedBy: 'activity')]
+    private Collection $recettes;
 
-
-
-
-
+    public function __construct()
+    {
+        $this->recettes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -40,21 +43,10 @@ class Activity
     public function setNameActivity(string $nameActivity): static
     {
         $this->nameActivity = $nameActivity;
-
         return $this;
     }
 
-    public function getPublic(): ?string
-    {
-        return $this->public;
-    }
 
-    public function setPublic(string $public): static
-    {
-        $this->public = $public;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Recette>
@@ -70,21 +62,16 @@ class Activity
             $this->recettes->add($recette);
             $recette->setActivity($this);
         }
-
         return $this;
     }
 
     public function removeRecette(Recette $recette): static
     {
         if ($this->recettes->removeElement($recette)) {
-            // set the owning side to null (unless already changed)
             if ($recette->getActivity() === $this) {
                 $recette->setActivity(null);
             }
         }
-
         return $this;
     }
-
-
 }

@@ -79,6 +79,10 @@ class Recette
     #[ORM\ManyToOne(inversedBy: 'recettes')]
     private ?Activity $activity = null;
 
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $public = null;
+
     /**
      * @var Collection<int, Ingredient>
      */
@@ -173,17 +177,7 @@ class Recette
         return $this;
     }
 
-  /* public function isPublished(): ?bool
-    {
-        return $this->published;
-    }
 
-    public function setPublished(bool $published): static
-    {
-        $this->published = $published;
-
-        return $this;
-    }*/
 
     public function getPicture(): ?string
     {
@@ -314,6 +308,17 @@ class Recette
     {
         $this->activity = $activity;
 
+        return $this;
+    }
+
+    public function getPublic(): ?string
+    {
+        return $this->public;
+    }
+
+    public function setPublic(?string $public): static
+    {
+        $this->public = $public;
         return $this;
     }
 

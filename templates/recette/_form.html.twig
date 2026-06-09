@@ -1,7 +1,7 @@
 {{ form_start(recetteForm, {'attr': {'novalidate': 'novalidate'}}) }}
 
-<div class="flex gap-4 p-4">
-    <div>
+<div class="flex flex-col gap-4 p-4">
+    <div class="w-1/2">
 
         {{ form_label(recetteForm.titre, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full '}}) }}
         {{ form_widget(recetteForm.titre,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
@@ -42,7 +42,10 @@
         {{ form_widget(recetteForm.place,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
 
         {{ form_label(recetteForm.activity, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
-            {{ form_widget(recetteForm.activity,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+        {{ form_widget(recetteForm.activity,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {{ form_label(recetteForm.public, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.public,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
 
         {{ form_label(recetteForm.producer, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
         {{ form_widget(recetteForm.producer,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
@@ -50,12 +53,84 @@
         {{ form_label(recetteForm.picture, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
         {{ form_widget(recetteForm.picture,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
 
+        {# Ingrédients #}
+        <div class="mt-4">
+            <p class="bg-slate-200 rounded p-2 w-full mb-2 mt-6">Ingrédients</p>
+            <div id="ingredients-collection"
+                 data-prototype="{{ form_widget(recetteForm.ingredients.vars.prototype) | e('html_attr') }}">
+                {% for ingredient in recetteForm.ingredients %}
+                    <div class="ingredient-item flex justify-end gap-2 mb-2">
+                        {{ form_widget(ingredient.name, {'attr': {'class': 'bg-slate-100 rounded-lg px-4 py-2 text-black'}}) }}
+                        {{ form_widget(ingredient.quantity, {'attr': {'class': 'bg-slate-100 rounded-lg px-4 py-2 text-black w-24'}}) }}
+                        {{ form_widget(ingredient.unit, {'attr': {'class': 'bg-slate-100 rounded-lg px-4 py-2 text-black w-24'}}) }}
+                        {% do ingredient.setRendered() %}
+                        <button type="button" class="remove-item bg-red-500 text-white px-3 py-2 rounded ml-2">Supprimer
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-ingredient" class="bg-pink-400 text-white p-2 rounded mt-2">+ Ingrédient
+            </button>
+        </div>
 
-        {{ form_end(recetteForm) }}
-        <button type="submit" class="bg-pink-400 text-white p-2 rounded mt-6 ">
+        {# Étapes #}
+        <div class="mt-5">
+            <p class="bg-slate-200 rounded p-2 w-full mb-2 mt-6">Étapes</p>
+            <div id="steps-collection"
+                 data-prototype="{{ form_widget(recetteForm.steps.vars.prototype) | e('html_attr') }}">
+                {% for step in recetteForm.steps %}
+                    <div class="step-item flex gap-2 mb-2 w-full">
+                        {{ form_widget(step.number, {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 text-black w-24'}}) }}
+                        {{ form_widget(step.description, {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 text-black flex-1'}}) }}
+                        {% do step.setRendered() %}
+                        <button type="button" class="remove-item bg-red-500 text-white px-3 py-2 rounded">Supprimer
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-step" class="bg-pink-400 text-white p-2 rounded mt-2">+ Étape</button>
+        </div>
+
+
+        <button type="submit" class="bg-pink-400 text-white p-2 rounded mt-6 mb-10">
             {{ submitLabel?? 'Enregistrer' }}
         </button>
 
     </div>
+
+    {{ form_end(recetteForm, {'render_rest': false}) }}
 </div>
+
+<script>
+    let ingredientIndex = {{ recetteForm.ingredients|length }};
+    const ingredientCollection = document.getElementById('ingredients-collection');
+
+
+    document.getElementById('add-ingredient').addEventListener('click', function () {
+        const newForm = ingredientCollection.dataset.prototype.replace(/__name__/g, ingredientIndex);
+        const div = document.createElement('div');
+        div.classList.add('ingredient-item');
+        div.innerHTML = newForm + '<button type="button" class="remove-item">Supprimer ingredient</button>';
+        ingredientCollection.appendChild(div);
+        ingredientIndex++;
+    });
+
+    let stepIndex = {{ recetteForm.steps|length }};
+    const stepCollection = document.getElementById('steps-collection');
+
+    document.getElementById('add-step').addEventListener('click', function () {
+        const newForm = stepCollection.dataset.prototype.replace(/__name__/g, stepIndex);
+        const div = document.createElement('div');
+        div.classList.add('step-item');
+        div.innerHTML = newForm + '<button type="button" class="remove-item">Suprimir étape</button>';
+        stepCollection.appendChild(div);
+        stepIndex++;
+    });
+
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-item')) {
+            e.target.closest('.ingredient-item, .step-item').remove();
+        }
+    });
+</script>
 
