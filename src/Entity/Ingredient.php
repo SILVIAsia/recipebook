@@ -13,13 +13,13 @@ class Ingredient
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?float $quantity = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 10,nullable: true)]
     private ?string $unit = null;
 
     #[ORM\ManyToOne(inversedBy: 'ingredients')]
@@ -36,7 +36,7 @@ class Ingredient
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
@@ -48,7 +48,7 @@ class Ingredient
         return $this->quantity;
     }
 
-    public function setQuantity(float $quantity): static
+    public function setQuantity(?float $quantity): static
     {
         $this->quantity = $quantity;
 
@@ -60,7 +60,7 @@ class Ingredient
         return $this->unit;
     }
 
-    public function setUnit(string $unit): static
+    public function setUnit(?string $unit): static
     {
         $this->unit = $unit;
 

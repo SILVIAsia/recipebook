@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Ingredient;
 use App\Entity\Recette;
+use App\Entity\Step;
 use App\Form\RecetteType;
 use App\Repository\RecetteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,6 +37,17 @@ final class RecetteController extends AbstractController
     {
         //cree une instance de recette
         $recette = new Recette();
+
+
+        for ($i = 0; $i < 10; $i++) {
+            $ingredient = new Ingredient();
+            $recette->addIngredient($ingredient);
+        }
+
+        for ($i = 0; $i < 10; $i++) {
+            $step = new Step();
+            $recette->addStep($step);
+        }
         //cree le formulaire
         $recetteForm = $this->createForm(RecetteType::class, $recette);
         //traite le formulaire
