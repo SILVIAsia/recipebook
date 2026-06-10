@@ -111,6 +111,7 @@ final class RecetteController extends AbstractController
                 unlink($this ->getParameter('upload_directory').'/'.$recette->getPicture());
                 $recette->setPicture(null);
                 $this->addFlash('success', 'Image supprimée avec succès!');
+
             }
 
             $uploadImage = $recetteForm->get('picture')->getData();

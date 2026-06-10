@@ -12,15 +12,19 @@
     <div class="text-gray-600 ml-33 ">
         {{ include('recette/_form.html.twig', {submitLabel: "Modifier la recette"} ) }}
     </div>
-    <a href="{{ path('ingredient_add', {recetteId: recette.id}) }}" class="bg-pink-400 text-white p-2 rounded mt-2 ">+ Ingrédient</a>
+
 
     {% if recette.picture %}
         <div>
             <img src="{{ asset('uploads/images/'~recette.picture) }}"
                  alt="Representation de recette {{ recette.titre }}"
-                 class="w-80 h-80 object-cover rounded">
+                 class="w-40 h-40 object-cover rounded ml-36">
         </div>
     {% endif %}
+
+    <a href="{{ path('ingredient_add', {recetteId: recette.id}) }}" class="bg-pink-400 text-white p-2 rounded mt-2 mb-10 w-1/12 text-center block ml-38">+ Ingrédient</a>
+
+    <a href="{{ path('step_add', {recetteId: recette.id}) }}" class="bg-pink-400 text-white p-2 rounded mt-2 mb-10 w-1/12 text-center block ml-38">+ Etape</a>
 
 
 {% endblock %}

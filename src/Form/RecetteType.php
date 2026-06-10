@@ -34,10 +34,10 @@ class RecetteType extends AbstractType
             $recette = $event->getData();
             $form = $event->getForm();
 
-            if ($recette && $recette->getPicture()) {
+            if ($recette && $recette->getPicture() ) {
                 $form->add('deleteCb', CheckboxType::class, [
                     'mapped' => false,
-                    'label' => 'Check si vous couliez suprimer image',
+                    'label' => 'Check si vous vouliez suprimer image',
                     'required' => false,
                 ]);
 

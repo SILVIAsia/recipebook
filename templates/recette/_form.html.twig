@@ -53,8 +53,7 @@
         {{ form_label(recetteForm.producer, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
         {{ form_widget(recetteForm.producer,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
 
-        {{ form_label(recetteForm.picture, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
-        {{ form_widget(recetteForm.picture,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
 
         {# Ingrédients #}
         <div class="mt-4">
@@ -77,10 +76,6 @@
                 {% endfor %}
             </div>
 
-
-
-
-
         </div>
 
         {# Étapes #}
@@ -100,13 +95,20 @@
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" id="add-step" class="bg-pink-400 text-white p-2 rounded mt-2">+ Étape</button>
         </div>
 
 
         <button type="submit" class="bg-pink-400 text-white p-2 rounded mt-6 mb-10 ml-auto block ">
             {{ submitLabel?? 'Enregistrer' }}
         </button>
+
+        {{ form_label(recetteForm.picture, null,  {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+        {{ form_widget(recetteForm.picture,  {'attr': {'class': 'bg-slate-200 rounded-lg px-4 py-2 w-full text-black '}}) }}
+
+        {% if recetteForm.deleteCb is defined %}
+            {{ form_label(recetteForm.deleteCb, null, {'attr': {'class': 'border border-slate-500 rounded p-2 w-full'}}) }}
+            {{ form_widget(recetteForm.deleteCb) }}
+        {% endif %}
 
     </div>
 </div>

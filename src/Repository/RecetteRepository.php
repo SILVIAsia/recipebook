@@ -32,7 +32,7 @@ class RecetteRepository extends ServiceEntityRepository
          return $query->getResult();
      }*/
 
-    public function findLastRecettes(): Paginator
+    public function findLastRecettes(): array
     {
         $qb = $this->createQueryBuilder('r');
         $qb->leftJoin('r.category', 'c')->addSelect('c')
@@ -44,7 +44,7 @@ class RecetteRepository extends ServiceEntityRepository
         $qb->orderBy('r.dateCreated', 'DESC');
         $query = $qb->getQuery();
         $query->setMaxResults(10);
-        return new Paginator($query);
+        return $query->getResult();
     }
 
     //    /**

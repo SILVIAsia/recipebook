@@ -29,7 +29,7 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
         $faker =\Faker\Factory::create('fr_FR');
 
         //crée 50 recettes!
-        for ($i = 1; $i < 50; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
 
             //crée une instance vide
             $recette = new Recette();
