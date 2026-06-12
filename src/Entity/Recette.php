@@ -45,7 +45,7 @@ class Recette
   //  private ?bool $published = null;
 
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
     #[ORM\Column(length: 255)]

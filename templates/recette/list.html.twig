@@ -54,14 +54,12 @@
 
 
                 {% if is_granted("ROLE_ADMIN") %}
-                    <div class="w-1/8 h-24 flex-shrink-0 ml-6 ">
-                        <p class="font-bold text-pink-400 ">Modifier</p>
-                        <a href="{{ path('recette_detail', {id: recette.id}) }}"
-                           title="{{ recette.titre }}"
-                           class="block truncate">{{ recette.titre }}</a>
+                    <div class="w-1/8 h-24 flex-shrink-0 ml-6">
+                        <a href="{{ path('recette_edit', {id: recette.id}) }}"
+                           title="Modifier {{ recette.titre }}"
+                           class="font-bold text-pink-400 hover:text-pink-600"> Modifier</a>
                     </div>
                 {% endif %}
-
 
             </div>
 
