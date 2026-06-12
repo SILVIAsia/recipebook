@@ -1,0 +1,35 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block admin_content %}
+    <h1 class="text-2xl font-bold text-pink-500 mb-6">Liste des animateurs</h1>
+
+    {% for user in animateurs %}
+        <div class="border border-slate-200 rounded-lg p-4 mb-4">
+
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="font-semibold text-lg">{{ user.name }} {{ user.lastname }}</p>
+                    <p class="text-slate-500 text-sm mb-2">{{ user.email }}</p>
+                </div>
+                <a href="{{ path('admin_animateur_edit', {id: user.id}) }}"
+                   class="text-red-600 font-semibold hover:text-pink-400">Modifier</a>
+            </div>
+
+            {% if user.recettes is not empty %}
+                <ul class="mt-2 space-y-1">
+                    {% for recette in user.recettes %}
+                        <li class="text-slate-600">
+                            <a href="{{ path('recette_detail', {id: recette.id}) }}" class="hover:text-green-600">
+                                → {{ recette.titre }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-slate-400 text-sm">Aucune recette</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block title %}Animateurs | {{ parent() }}{% endblock %}

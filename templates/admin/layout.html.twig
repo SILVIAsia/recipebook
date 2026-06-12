@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="flex min-h-screen">
+
+        {# Menu gauche - commun à toutes les pages admin #}
+        <div class="w-1/4 bg-slate-100 p-6">
+            <h2 class="font-bold text-lg text-pink-500 mb-4">Admin {{ app.user.username }}</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{{ path('admin_animateurs') }}" class="text-slate-700 hover:text-pink-400 block py-2">Animateurs</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_register') }}" class="text-slate-700 hover:text-pink-400 block py-2">Inscrire un Animateur</a>
+                </li>
+                <li>
+                    <a href="{{ path('recette_list') }}" class="text-slate-700 hover:text-pink-400 block py-2">Mes Recettes</a>
+                </li>
+            </ul>
+        </div>
+
+        {# Contenu - chaque page admin remplit ce bloc #}
+        <div class="w-3/4 p-6">
+            {% block admin_content %}{% endblock %}
+        </div>
+
+    </div>
+{% endblock %}
