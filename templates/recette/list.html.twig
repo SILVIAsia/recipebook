@@ -12,52 +12,55 @@
 
         {% for recette in recettes %}
 
-            <div class="flex gap-8 mt-4 border border-gray-300 rounded p-4">
-                <div class="w-1/4">
-                    <p class="font-bold ">Recette</p>
+            <div class="flex gap-0 mt-4 border border-gray-300 rounded p-4">
+
+                <div class="w-96  flex-shrink-0 ml-5 mr-5">
+                    <p class="font-bold">Recette</p>
                     <a href="{{ path('recette_detail', {id: recette.id}) }}"
-                       title="voir le détail de la recette"> {{ recette.titre }}</a>
+                       title="{{ recette.titre }}"
+                       class="block truncate">{{ recette.titre }}</a>
                 </div>
 
-                <div>
-                    <p class="font-bold">Categorie</p>
-                    <p>{{ recette.category.nameCategory }}</p>
-                </div>
-
-                <div>
-                    <p class="font-bold">Auteur</p>
+                <div class="w-1/8  ">
+                    <p class="font-bold text-Slate-700 ">Auteur</p>
                     <p>{{ recette.user ? recette.user.userName : 'Non défini' }}</p>
                 </div>
 
-
-                <div>
-                    <p class="font-bold">Temps de cuisson</p>
-                    <p>{{ recette.cookTime }} </p>
+                <div class="w-1/8">
+                    <p class="font-bold text-Slate-700">Cuisson</p>
+                    <p>{{ recette.cookTime }} min</p>
                 </div>
 
-                <div>
-                    <p class="font-bold">Temps de préparation</p>
-                    <p>{{ recette.preparationTime }} </p>
+                <div class="w-1/8">
+                    <p class="font-bold text-Slate-700">Préparation</p>
+                    <p>{{ recette.preparationTime }} min</p>
                 </div>
 
-
-
-
-                <div>
-                    <p class="font-bold">Date creation</p>
+                <div class="w-1/8">
+                    <p class="font-bold text-Slate-700">Date de l'événement</p>
                     <p>{{ recette.dateCreated | date ("d-m-y") }}</p>
                 </div>
 
 
-
-
-                <div>
-                    <p class="font-bold ">Modifier</p>
-                    <a href="{{ path('recette_edit', {id: recette.id}) }}"
-                       title="modifier la recette"> {{ recette.titre }}</a>
+                <div class="w-24 h-24 flex-shrink-0 ">
+                    {% if recette.picture %}
+                        <img src="{{ asset('uploads/images/'~recette.picture) }}"
+                             alt="{{ recette.titre }}"
+                             class="w-full h-full object-cover">
+                    {% else %}
+                        <span class="text-slate-400">Pas de photo</span>
+                    {% endif %}
                 </div>
 
 
+                {% if is_granted("ROLE_ADMIN") %}
+                    <div class="w-1/8 h-24 flex-shrink-0 ml-6 ">
+                        <p class="font-bold text-pink-400 ">Modifier</p>
+                        <a href="{{ path('recette_detail', {id: recette.id}) }}"
+                           title="{{ recette.titre }}"
+                           class="block truncate">{{ recette.titre }}</a>
+                    </div>
+                {% endif %}
 
 
             </div>

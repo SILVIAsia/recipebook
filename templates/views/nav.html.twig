@@ -3,23 +3,25 @@
         <img src="{{ asset('images/logocdm1.png') }}" class="h-10">
     </a>
     <a href="{{ path('main_home') }}" class="text-pink-400 font-semibold hover:text-teal-500">Accueil</a>
-    <a href="{{ path('main_test') }}" class="text-pink-400 font-semibold hover:text-teal-500">Testounet</a>
+    {# <a href="{{ path('main_test') }}" class="text-pink-400 font-semibold hover:text-teal-500">Testounet</a> #}
     <a href="{{ path('recette_list') }}" class="text-pink-400 font-semibold hover:text-teal-500">Recettes</a>
     <a href="{{ path('main_projet') }}" class="text-pink-400 font-semibold hover:text-teal-500">Le Projet</a>
 
 
-
     {# si je suis UN UTILISATEUR CONNECTE #}
     {% if app.user %}
-        <a href="{{ path('recette_create') }}"class="bg-white text-pink-400 font-semibold px-4 py-2 rounded hover:bg-pink-100">Ajouter Recette</a>
-        <a href="{{ path('app_logout') }}"class="text-pink-400 font-semibold hover:text-teal-500">Deconnexion</a>
+        <a href="{{ path('recette_create') }}"
+           class="ml-auto bg-white text-pink-400 font-semibold px-4 py-2 rounded hover:bg-pink-100">Ajouter Recette</a>
+        <a href="{{ path('app_logout') }}" class="text-pink-400 font-semibold hover:text-teal-500">Deconnexion</a>
+
+
 
         {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('admin_dashboard') }}"class="bg-white text-pink-400 font-semibold px-4 py-2 rounded hover:bg-pink-100">Back Admin</a>
-        {% endif %}
-    {%else%}
-        <a href="{{ path('app_register') }}" class="text-pink-400 font-semibold hover:text-teal-500">S'inscrire</a>
-        <a href="{{ path('app_login') }}" class="text-pink-400 font-semibold hover:text-teal-500">Connexion</a>
 
+            <a href="{{ path('admin_dashboard') }}"class="bg-white text-pink-400 font-semibold px-4 py-2 rounded hover:bg-pink-100">Espace Admin</a>
+
+        {% endif %}
+    {% else %}
+        <a href="{{ path('app_login') }}" class="ml-auto text-pink-400 font-semibold hover:text-teal-500">Connexion</a>
     {% endif %}
 </nav>

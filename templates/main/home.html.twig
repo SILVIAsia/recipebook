@@ -1,9 +1,36 @@
 {% extends 'base.html.twig' %}
 
- {% block body %}
-     <h1 class="text-3xl font-bold text-emerald-500" >Les Recettes du CDM</h1>
- {% endblock %}
-
 {% block title %}
-{{ parent() }} | Did it before you die
+    {{ parent() }} | Did it before you die
+{% endblock %}
+
+{% block body %}
+    <div class="flex min-h-screen">
+
+        {# Gauche - photo #}
+        <div class="w-1/2">
+            <img src="{{ asset('images/home.png') }}" class="w-full h-full object-cover">
+        </div>
+
+        {# Droite - 4 saisons #}
+        <div class="w-1/2 p-8">
+            <h1 class="text-3xl font-bold text-pink-500 mb-8">Les Recettes du CDM</h1>
+
+            <div class="grid  gap-4">
+                <div class="bg-slate-100 rounded-lg p-6 h-40 flex items-center justify-center">
+                    <p class="text-slate-400 font-semibold"> Printemps</p>
+                </div>
+                <div class="bg-slate-100 rounded-lg p-6 h-40 flex items-center justify-center">
+                    <p class="text-slate-400 font-semibold"> Été</p>
+                </div>
+                <div class="bg-slate-100 rounded-lg p-6 h-40 flex items-center justify-center">
+                    <p class="text-slate-400 font-semibold"> Automne</p>
+                </div>
+                <div class="bg-slate-100 rounded-lg p-6 h-40 flex items-center justify-center">
+                    <p class="text-slate-400 font-semibold"> Hiver</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

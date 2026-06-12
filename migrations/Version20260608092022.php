@@ -22,7 +22,7 @@ final class Version20260608092022 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE recette ADD season_id INT DEFAULT NULL, ADD activity_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE recette ADD CONSTRAINT FK_49BB639012469DE2 FOREIGN KEY (category_id) REFERENCES category (id)');
-        $this->addSql('ALTER TABLE recette ADD CONSTRAINT FK_49BB6390A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
+        $this->addSql('ALTER TABLE recette ADD CONSTRAINT FK_49BB6390A76ED395 FOREIGN KEY (user_id) REFERENCES admin (id)');
         $this->addSql('ALTER TABLE recette ADD CONSTRAINT FK_49BB63906BF700BD FOREIGN KEY (status_id) REFERENCES status (id)');
         $this->addSql('ALTER TABLE recette ADD CONSTRAINT FK_49BB63904EC001D1 FOREIGN KEY (season_id) REFERENCES season (id)');
         $this->addSql('ALTER TABLE recette ADD CONSTRAINT FK_49BB639081C06096 FOREIGN KEY (activity_id) REFERENCES activity (id)');

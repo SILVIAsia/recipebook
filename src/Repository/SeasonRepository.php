@@ -19,7 +19,7 @@ class SeasonRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('r');
         $qb->leftJoin('r.category', 'c')->addSelect('c')
-            ->leftJoin('r.user', 'u')->addSelect('u')
+            ->leftJoin('r.admin', 'u')->addSelect('u')
             ->leftJoin('r.status', 's')->addSelect('s')
             ->leftJoin('r.season', 'se')->addSelect('se')
             ->leftJoin('r.activity', 'a')->addSelect('a')
