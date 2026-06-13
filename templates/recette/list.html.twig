@@ -53,7 +53,7 @@
                 </div>
 
 
-                {% if is_granted("ROLE_ADMIN") %}
+                {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
                     <div class="w-1/8 h-24 flex-shrink-0 ml-6">
                         <a href="{{ path('recette_edit', {id: recette.id}) }}"
                            title="Modifier {{ recette.titre }}"

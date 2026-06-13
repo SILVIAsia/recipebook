@@ -56,17 +56,16 @@
             </div>
 
 
-
-        {# Ingrédients #}
-        <div class="p-6 mb-4">
-            <h2 class="text-xl font-bold text-pink-500 mb-3">Ingrédients</h2>
-            <ul class="space-y-2">
-                {% for ingredient in recette.ingredients %}
-                    <li class="text-slate-600">• {{ ingredient.quantity }} {{ ingredient.unit }}
-                        - {{ ingredient.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+            {# Ingrédients #}
+            <div class="p-6 mb-4">
+                <h2 class="text-xl font-bold text-pink-500 mb-3">Ingrédients</h2>
+                <ul class="space-y-2">
+                    {% for ingredient in recette.ingredients %}
+                        <li class="text-slate-600">• {{ ingredient.quantity }} {{ ingredient.unit }}
+                            - {{ ingredient.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
     {# Étapes #}
@@ -84,19 +83,22 @@
 
 
     {# bottons #}
+    {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
     <div class="mt-10">
-        <div class="mb-10 ml-6 mb-15">
-            <a href="{{ path('recette_edit', {id:recette.id}) }}"
-               class="bg-pink-400 text-white p-2 rounded ">Modifier</a>
+    <div class="mb-10 ml-6 mb-15">
+    <a href="{{ path('recette_edit', {id:recette.id}) }}"
+       class="bg-pink-400 text-white p-2 rounded ">Modifier</a>
+    {% endif %}
 
-            <a href="{{ path('recette_delete', {
-                'id': recette.id,
-                'token': csrf_token('delete' ~ recette.id)
-            }) }}" class="bg-pink-400 text-white p-2 rounded"> Supprimer</a>
-
+    {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('recette_delete', {
+            'id': recette.id,
+            'token': csrf_token('delete' ~ recette.id)
+        }) }}" class="bg-pink-400 text-white p-2 rounded"> Supprimer</a>
 
         </div>
 
-    </div>
+        </div>
+    {% endif %}
 {% endblock %}
 

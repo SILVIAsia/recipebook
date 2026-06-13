@@ -17,11 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/recette')]
+//tb avec isGRanted on peut proteger la recetten
 final class RecetteController extends AbstractController
 {
     #[Route('/', name: 'recette_list')]
     public function list(RecetteRepository $recetteRepository): Response
     {
+
+        // $this->createAccessDeniedException() on peux proteger la recette avec ce methode
         // va chercher la liste en bdd
         //   $recettes = $recetteRepository->findBy([], ["titre" => "ASC"]);
 
@@ -55,6 +58,7 @@ final class RecetteController extends AbstractController
         $recetteForm->handleRequest($request);
         // si le form est soumis
         if ($recetteForm->isSubmitted() && $recetteForm->isValid()) {
+            $recette ->setUser($this->getUser());
             $uploadImage = $recetteForm->get('picture')->getData();
             if ($uploadImage) {
                 $originalFilename = pathinfo($uploadImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -68,11 +72,8 @@ final class RecetteController extends AbstractController
                 } catch (FileException $exception)
                 {
                     dd($exception);
-
                 }
             }
-
-
 
             $entityManager->persist($recette); // on garde dans bdd pour faire un insert on utilise el em o el repository
             $entityManager->flush();            // debo pedirle a synfony el $em de me le passer mas arriba
@@ -91,8 +92,6 @@ final class RecetteController extends AbstractController
                 "recetteForm" => $recetteForm,
             ]);
         }
-
-
         #[
         Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
     public function edit(Recette $recette, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
@@ -140,9 +139,7 @@ final class RecetteController extends AbstractController
 
             //redirige versla page de details de recette
             return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
-
         }
-
         return $this->render('recette/edit.html.twig', [
             "recette" => $recette,
             //passe le formulaire a twig
@@ -150,17 +147,13 @@ final class RecetteController extends AbstractController
         ]);
     }
 
-
    #[Route('/{id}/delete/{token}', name: 'recette_delete', requirements: ["id" => "\d+"], methods: ['GET', 'POST',])]
    public function delete(Recette $recette, EntityManagerInterface $entityManager, $token): Response
     {
-
         if ($this->isCsrfTokenValid(
             'delete' . $recette->getId(), $token)) {
-
             $entityManager->remove($recette);
             $entityManager->flush();
-
             $this->addFlash('success', "La recette a été supprimé!!");
             return $this->redirectToRoute('recette_list');
         }
@@ -182,9 +175,6 @@ final class RecetteController extends AbstractController
             "recette" => $recette,
         ]);
     }
-
-
-
 }
 
 

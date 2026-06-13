@@ -18,20 +18,6 @@ class RecetteRepository extends ServiceEntityRepository
         parent::__construct($registry, Recette::class);
     }
 
-    /* public function findLastRecettes():Array
-     {
-         $dql = "SELECT r
-                 FROM App\Entity\Recette r
-                 Where r.cooktime > 5
-                 ORDER BY r.dateCreated DESC";
-
-         //aqui abjo recupero el entity manager y esto en el repository utilise la methode que forni getem
-         $em = $this->getEntityManager();
-         $query = $em->createQuery($dql);
-         $query->setMaxResults(5);
-         return $query->getResult();
-     }*/
-
     public function findLastRecettes(): array
     {
         $qb = $this->createQueryBuilder('r');
@@ -43,7 +29,7 @@ class RecetteRepository extends ServiceEntityRepository
             ->leftJoin('r.place', 'p')->addSelect('p');
         $qb->orderBy('r.dateCreated', 'DESC');
         $query = $qb->getQuery();
-        $query->setMaxResults(10);
+        $query->setMaxResults(50);
         return $query->getResult();
     }
 

@@ -1,14 +1,21 @@
 {% extends 'admin/layout.html.twig' %}
 
 {% block admin_content %}
-    <h1 class="text-2xl font-bold text-pink-500 mb-6">Liste des animateurs</h1>
+    <h1 class="text-2xl font-bold text-pink-500 mb-6">Liste des animateurs et ses recettes</h1>
 
     {% for user in animateurs %}
         <div class="border border-slate-200 rounded-lg p-4 mb-4">
 
             <div class="flex justify-between items-start">
                 <div>
-                    <p class="font-semibold text-lg">{{ user.name }} {{ user.lastname }}</p>
+                    <p class="font-semibold text-lg">{{ user.name }} {{ user.lastname }}
+
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <span class="text-xs bg-pink-100 text-pink-600 px-2 py-1 rounded ml-2">Admin</span>
+                        {% endif %}
+
+                    </p>
+
                     <p class="text-slate-500 text-sm mb-2">{{ user.email }}</p>
                 </div>
                 <a href="{{ path('admin_animateur_edit', {id: user.id}) }}"
