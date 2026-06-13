@@ -92,10 +92,15 @@ final class RecetteController extends AbstractController
                 "recetteForm" => $recetteForm,
             ]);
         }
-        #[
-        Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
+        #[Route('/{id}/modifier', name: 'recette_edit', methods: ['GET', 'POST'])]
     public function edit(Recette $recette, Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        if(!$this->getUser()) {
+            throw $this->createAccessDeniedException("nope");
+        }
+        if ($this->getUser() !== $recette->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+             throw $this->createAccessDeniedException("Vous n'êtes pas le propriétaire de cette recette");
+}
 
         //cree le formulaire
         $recetteForm = $this->createForm(RecetteType::class, $recette);
@@ -150,6 +155,11 @@ final class RecetteController extends AbstractController
    #[Route('/{id}/delete/{token}', name: 'recette_delete', requirements: ["id" => "\d+"], methods: ['GET', 'POST',])]
    public function delete(Recette $recette, EntityManagerInterface $entityManager, $token): Response
     {
+
+        if ($this->getUser() !== $recette->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException("Vous n'avait pas le droit de efacer cette recette");
+        }
+
         if ($this->isCsrfTokenValid(
             'delete' . $recette->getId(), $token)) {
             $entityManager->remove($recette);
