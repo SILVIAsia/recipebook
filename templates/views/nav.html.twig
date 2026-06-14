@@ -14,7 +14,7 @@
            class="ml-auto bg-white text-pink-400 font-semibold px-4 py-2 rounded hover:bg-pink-100">Ajouter Recette</a>
         <a href="{{ path('app_logout') }}" class="text-pink-400 font-semibold hover:text-teal-500">Deconnexion</a>
 
-
+        <a href="{{ path('mon_espace') }}" class="flex items-center gap-2 text-pink-400 font-semibold hover:text-teal-500"> 👤 {{ app.user.name }} </a>
 
         {% if is_granted("ROLE_ADMIN") %}
 

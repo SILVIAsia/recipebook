@@ -8,6 +8,7 @@ use App\Entity\Step;
 use App\Form\RecetteType;
 use App\Repository\RecetteRepository;
 use App\Repository\UserRepository;
+use App\Service\RecetteFilterService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -21,17 +22,19 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class RecetteController extends AbstractController
 {
     #[Route('/', name: 'recette_list')]
-    public function list(RecetteRepository $recetteRepository): Response
+    public function list(RecetteFilterService $filterService, Request $request): Response
     {
 
         // $this->createAccessDeniedException() on peux proteger la recette avec ce methode
         // va chercher la liste en bdd
         //   $recettes = $recetteRepository->findBy([], ["titre" => "ASC"]);
 
-        $recettes = $recetteRepository->findLastRecettes();
+        $saison = $request->query->get('saison');
+        $recettes = $filterService->getRecettes($saison);
 
         return $this->render('recette/list.html.twig', [
             "recettes" => $recettes,
+            "saison" => $saison
         ]);
     }
 
@@ -82,8 +85,8 @@ final class RecetteController extends AbstractController
             //crée un message qui v  si afficcher une seule fois sur la prochaine page
             $this->addFlash('success', "Bravo ta recette a été crée!!");
 
-            //redirige versla page de details de recette
-            return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
+            //redirige vers la page de details de recette
+            return $this->redirectToRoute('mon_espace', ['id' => $recette->getId()]);
 
         }
 
@@ -143,7 +146,7 @@ final class RecetteController extends AbstractController
             $this->addFlash('success', "Bravo votre recette a été modifié!!");
 
             //redirige versla page de details de recette
-            return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
+            return $this->redirectToRoute('mon_espace', ['id' => $recette->getId()]);
         }
         return $this->render('recette/edit.html.twig', [
             "recette" => $recette,
@@ -160,12 +163,14 @@ final class RecetteController extends AbstractController
             throw $this->createAccessDeniedException("Vous n'avait pas le droit de efacer cette recette");
         }
 
+
+
         if ($this->isCsrfTokenValid(
             'delete' . $recette->getId(), $token)) {
             $entityManager->remove($recette);
             $entityManager->flush();
             $this->addFlash('success', "La recette a été supprimé!!");
-            return $this->redirectToRoute('recette_list');
+            return $this->redirectToRoute('mon_espace');
         }
         $this->addFlash("danger", "Vous pouvez pas eliminer la rectte");
         return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);

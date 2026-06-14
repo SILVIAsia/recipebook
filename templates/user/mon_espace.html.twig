@@ -1,0 +1,28 @@
+{% extends'user/layout.html.twig' %}
+
+
+{% block user_content%}
+    <div class="p-6 max-w-3xl">
+    <h1 class="text-3xl font-bold text-pink-500"> Mon espace </h1>
+
+    {% if recettes is not empty %}
+        {% for recette in recettes %}
+        <div class="border border-slate-200 rounded-lg p-4 mb-3 flex justify-between items-center">
+            <a href="{{ path('recette_detail', {id:recette.id}) }}" class="font-semibold hover:text-pink-400">
+                    {{ recette.titre }} </a>
+                <div class="flex gap-3">
+                 <a href="{{ path('recette_edit', {id:recette.id}) }}" class="text-pink-400 hover:text-pink-600">
+                        Modifier</a>
+                 <a href="{{ path('recette_delete', {id:recette.id, token: csrf_token('delete' ~ recette.id)}) }}"
+                       class="text-red-500 hover:text-red-700"> Supprimer</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-slate-400"> Sans recette. </p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+

@@ -5,7 +5,22 @@
 {% endblock %}
 
 {% block body %}
+    <div class="flex justify-end mr-20 gap-3">
+        <a href="{{ path('mon_espace') }}" class="bg-pink-400 text-white p-2 rounded">Retour à mon espace</a>
 
+        {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('recette_edit', {id: recette.id}) }}"
+               class="bg-pink-400 text-white p-2 rounded">Modifier</a>
+
+            <a href="{{ path('recette_delete', {
+                'id': recette.id,
+                'token': csrf_token('delete' ~ recette.id)}) }}" class="bg-pink-400 text-white p-2 rounded">Supprimer</a>
+
+        {% endif %}
+    </div>
+
+
+    </div>
 
 
 
@@ -68,6 +83,7 @@
             </div>
         </div>
     </div>
+
     {# Étapes #}
     <div class=" mb-4">
         <h2 class="text-xl font-bold text-pink-500 mb-3">Étapes</h2>
@@ -80,25 +96,5 @@
         {% endfor %}
     </div>
 
-
-
-    {# bottons #}
-    {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
-    <div class="mt-10">
-    <div class="mb-10 ml-6 mb-15">
-    <a href="{{ path('recette_edit', {id:recette.id}) }}"
-       class="bg-pink-400 text-white p-2 rounded ">Modifier</a>
-    {% endif %}
-
-    {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('recette_delete', {
-            'id': recette.id,
-            'token': csrf_token('delete' ~ recette.id)
-        }) }}" class="bg-pink-400 text-white p-2 rounded"> Supprimer</a>
-
-        </div>
-
-        </div>
-    {% endif %}
 {% endblock %}
 
