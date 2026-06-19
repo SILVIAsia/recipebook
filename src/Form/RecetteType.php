@@ -52,23 +52,23 @@ class RecetteType extends AbstractType
                 'label' => 'Description rapide'
             ])
             ->add('cooktime', IntegerType::class, [
-                'label' => 'Temp de Cuisson'
+                'label' => 'Temps de Cuisson (min)'
             ])
             ->add('preparationTime', IntegerType::class, [
-                'label' => 'Temp de Preparation'
+                'label' => 'Temps de préparation (min)'
             ])
             ->add('servings', IntegerType::class, [
-                'label' => 'portions'
+                'label' => 'Portions'
             ])
             ->add('date', null, [
                 'widget' => 'single_text',
-                'label' => 'Date de preparation',
+                'label' => 'Date de préparation',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'nameCategory',
-                'label' => 'Category',
-                'placeholder' => 'Seleccioner une categorie'
+                'label' => 'Catégorie',
+                'placeholder' => 'Sélectionner une catégorie'
             ])
             ->add('status', EntityType::class, [
                 'class' => Status::class,
@@ -105,7 +105,7 @@ class RecetteType extends AbstractType
                 'placeholder' => 'Choisir un lieu'
             ])
             ->add('picture', FileType::class, [
-                'label' => 'Photo de l\'recette (png,jpeg)',
+                'label' => 'Photo de la recette (png, jpeg)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

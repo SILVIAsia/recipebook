@@ -38,13 +38,11 @@ final class RecetteController extends AbstractController
         ]);
     }
 
-
     #[Route('/creer', name: 'recette_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         //cree une instance de recette
         $recette = new Recette();
-
 
         for ($i = 0; $i < 10; $i++) {
             $ingredient = new Ingredient();
@@ -82,10 +80,8 @@ final class RecetteController extends AbstractController
             $entityManager->flush();            // debo pedirle a synfony el $em de me le passer mas arriba
 
 
-            //crée un message qui v  si afficcher une seule fois sur la prochaine page
-            $this->addFlash('success', "Bravo ta recette a été crée!!");
+            $this->addFlash('success', "Bravo! Votre recette a été créée.");
 
-            //redirige vers la page de details de recette
             return $this->redirectToRoute('mon_espace', ['id' => $recette->getId()]);
 
         }
@@ -143,7 +139,7 @@ final class RecetteController extends AbstractController
             $entityManager->flush();
 
             //crée un message qui v  si afficcher une seule fois sur la prochaine page
-            $this->addFlash('success', "Bravo votre recette a été modifié!!");
+            $this->addFlash('success', "Bravo! Votre recette a été modifiée.");
 
             //redirige versla page de details de recette
             return $this->redirectToRoute('mon_espace', ['id' => $recette->getId()]);
@@ -160,7 +156,7 @@ final class RecetteController extends AbstractController
     {
 
         if ($this->getUser() !== $recette->getUser() && !$this->isGranted('ROLE_ADMIN')) {
-            throw $this->createAccessDeniedException("Vous n'avait pas le droit de efacer cette recette");
+            throw $this->createAccessDeniedException("Vous n'avez pas le droit de supprimer cette recette.");
         }
 
 
@@ -169,10 +165,10 @@ final class RecetteController extends AbstractController
             'delete' . $recette->getId(), $token)) {
             $entityManager->remove($recette);
             $entityManager->flush();
-            $this->addFlash('success', "La recette a été supprimé!!");
+            $this->addFlash('success', "La recette a été supprimée.");
             return $this->redirectToRoute('mon_espace');
         }
-        $this->addFlash("danger", "Vous pouvez pas eliminer la rectte");
+        $this->addFlash("danger", "Vous ne pouvez pas supprimer cette recette.");
         return $this->redirectToRoute('recette_detail', ['id' => $recette->getId()]);
     }
 
@@ -184,7 +180,7 @@ final class RecetteController extends AbstractController
         //va chercher le detail en bdd
 
         if (!$recette) {
-            throw $this->createNotFoundException("No existe Sory dude");
+            throw $this->createNotFoundException("Désolé, cette recette n'existe pas.");
         }
         return $this->render('recette/detail.html.twig', [
             "recette" => $recette,

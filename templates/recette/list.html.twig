@@ -4,46 +4,42 @@
     Toutes les recettes | {{ parent () }}
 {% endblock %}
 
-
-
 {% block body %}
-    <article class=" grid grid-cols-1 gap-4 text-slate-500 ml-35 mr-35 mb-15 ">
-        <h1 class="text-[3rem] mt-30">Toutes Les Recettes {{ parent() }}</h1>
+    <article class="grid grid-cols-1 gap-4 text-slate-500 mx-4 md:mx-8 lg:mx-35 mb-15">
+        <h1 class="text-[2rem] md:text-[3rem] mt-10 md:mt-30">Toutes Les Recettes {{ parent() }}</h1>
 
         {% for recette in recettes %}
 
-            <div class="flex gap-0 mt-4 border border-gray-300 rounded p-4">
+            <div class="flex flex-col md:flex-row flex-wrap md:flex-nowrap gap-4 md:gap-0 mt-4 border border-gray-300 rounded p-4">
 
-                <div class="w-96  flex-shrink-0 ml-5 mr-5">
+                <div class="w-full md:w-96 flex-shrink-0 md:ml-5 md:mr-5">
                     <p class="font-bold">Recette</p>
                     <a href="{{ path('recette_detail', {id: recette.id}) }}"
                        title="{{ recette.titre }}"
                        class="block truncate">{{ recette.titre }}</a>
                 </div>
 
-                <div class="w-1/8  ">
-                    <p class="font-bold text-Slate-700 ">Season</p>
+                <div class="w-1/2 md:w-1/8">
+                    <p class="font-bold text-Slate-700">Saison</p>
                     <p>{{ recette.season ? recette.season.nameSeason : 'Non défini' }}</p>
                 </div>
 
-
-                <div class="w-1/8">
+                <div class="w-1/2 md:w-1/8">
                     <p class="font-bold text-Slate-700">Cuisson</p>
                     <p>{{ recette.cookTime }} min</p>
                 </div>
 
-                <div class="w-1/8">
+                <div class="w-1/2 md:w-1/8">
                     <p class="font-bold text-Slate-700">Préparation</p>
                     <p>{{ recette.preparationTime }} min</p>
                 </div>
 
-                <div class="w-1/8">
+                <div class="w-1/2 md:w-1/8">
                     <p class="font-bold text-Slate-700">Date de l'événement</p>
                     <p>{{ recette.dateCreated | date ("d-m-y") }}</p>
                 </div>
 
-
-                <div class="w-24 h-24 flex-shrink-0 ">
+                <div class="w-24 h-24 flex-shrink-0">
                     {% if recette.picture %}
                         <img src="{{ asset('uploads/images/'~recette.picture) }}"
                              alt="{{ recette.titre }}"
@@ -53,9 +49,8 @@
                     {% endif %}
                 </div>
 
-
                 {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
-                    <div class="w-1/8 h-24 flex-shrink-0 ml-6">
+                    <div class="w-full md:w-1/8 flex-shrink-0 md:ml-6">
                         <a href="{{ path('recette_edit', {id: recette.id}) }}"
                            title="Modifier {{ recette.titre }}"
                            class="font-bold text-pink-400 hover:text-pink-600"> Modifier</a>
@@ -64,11 +59,7 @@
 
             </div>
 
-
         {% endfor %}
-
 
     </article>
 {% endblock %}
-
-

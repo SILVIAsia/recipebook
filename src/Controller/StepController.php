@@ -33,7 +33,7 @@ class StepController extends AbstractController
         $recetteId = $step->getRecette()->getId();
         $entityManager->remove($step);
         $entityManager->flush();
-        $this->addFlash('success', 'Etape supprimé');
+        $this->addFlash('success', 'Etape supprimée');
         return $this->redirectToRoute('recette_edit', ['id' => $recetteId]);
     }
 }

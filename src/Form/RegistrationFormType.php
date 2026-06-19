@@ -38,12 +38,12 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('name', TextType::class, [
-                'label' => 'Name',
+                'label' => 'Prénom',
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Last Name',
+                'label' => 'Nom',
             ])->add('username', TextType::class, [
-                'label' => 'User Name',
+                'label' => 'Pseudo',
             ])
             ->add('roles', ChoiceType::class, [
 

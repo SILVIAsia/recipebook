@@ -58,13 +58,13 @@
                 </div>
 
                 <div><span class="font-semibold">Producteur local:</span> {{ recette.producer }}</div>
-                <div><span class="font-semibold">Preparé le:</span> {{ recette.dateCreated | date("d-m-Y") }}</div>
+                <div><span class="font-semibold">Préparé le:</span> {{ recette.dateCreated | date("d-m-Y") }}</div>
                 <div><span class="font-semibold">Catégorie:</span> {{ recette.category.nameCategory }}</div>
                 <div><span class="font-semibold">Statut:</span> {{ recette.status.nameStatus }}</div>
                 <div><span class="font-semibold">Saison:</span> {{ recette.season.nameSeason }}</div>
                 <div><span class="font-semibold">Activité:</span> {{ recette.activity.nameActivity }}</div>
                 <div><span class="font-semibold">Lieu:</span> {{ recette.place.namePlace }}</div>
-                <div><span class="font-semibold">public:</span> {{ recette.public }}</div>
+                <div><span class="font-semibold">Public:</span> {{ recette.public }}</div>
                 <div><span
                         class="font-semibold">Animateur:</span> {{ recette.user ? recette.user.userName : 'Non défini' }}
                 </div>
