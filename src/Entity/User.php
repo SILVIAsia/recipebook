@@ -56,7 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $photouser = null;
 
-
     #[ORM\OneToMany(targetEntity: Recette::class, mappedBy: 'user')]
     private Collection $recettes;
 

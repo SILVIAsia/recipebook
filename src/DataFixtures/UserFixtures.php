@@ -17,7 +17,6 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr-FR');
-
         for ($i = 0; $i < 20; $i++) {
             $user = new User();
             $hashedPassword = $this->passwordHasher->hashPassword($user, 'azerty');
@@ -29,7 +28,6 @@ class UserFixtures extends Fixture
                 ->setRoles(["ROLE_USER"])
                 ->setPhotouser(null)
                 ->setPassword($hashedPassword);
-
             $manager->persist($user);
             $this->addReference(self::USER_REFERENCE . $i, $user);
         }

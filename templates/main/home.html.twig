@@ -5,45 +5,44 @@
 {% endblock %}
 
 {% block body %}
-    <div class="flex min-h-screen">
+    <div class="flex flex-col lg:flex-row min-h-screen">
 
         {# Gauche - photo #}
-        <div class="w-1/2">
-            <img src="{{ asset('images/home.png') }}" class="w-full h-full object-cover">
+        <div class="w-full lg:w-1/2">
+            <img src="{{ asset('images/home.png') }}" class="w-full h-64 lg:h-full object-cover">
         </div>
 
         {# Droite - 4 saisons #}
-        <div class="w-1/2 p-8">
-            <h1 class="text-3xl font-bold text-pink-500 mb-8">Les Recettes du CDM</h1>
+        <div class="w-full lg:w-1/2 p-4 sm:p-6 lg:p-8">
+            <h1 class="text-2xl sm:text-3xl font-bold text-pink-500 mb-8 text-center lg:text-left">
+                Les Recettes du CDM
+            </h1>
 
-            <div class="grid  gap-4">
-
+            <div class="grid gap-4">
 
                 <a href="{{ path('recette_list', {saison: 'Printemps'}) }}"
-                   class="bg-slate-100 rounded-lg p-6 h-45 flex items-center justify-center gap-3 hover:bg-pink-200 ">
-                    <img src="{{ asset('images/icone fleur.png') }}" class="w-20 h-20">
-                    <p class="text-slate-500 font-semibold text-xl w-32">Printemps</p> </a>
+                   class="bg-slate-100 rounded-lg p-4 sm:p-6 min-h-32 lg:h-45 flex items-center justify-center gap-3 hover:bg-pink-200">
+                    <img src="{{ asset('images/icone fleur.png') }}" class="w-16 h-16 sm:w-20 sm:h-20">
+                    <p class="text-slate-500 font-semibold text-lg sm:text-xl w-32">Printemps</p>
+                </a>
 
                 <a href="{{ path('recette_list', {saison: 'été'}) }}"
-                   class="bg-slate-100 rounded-lg p-6 h-45 flex items-center justify-center gap-3 hover:bg-green-200">
-                    <img src="{{ asset('images/iconete.png') }}" class="w-20 h-20">
-                    <p class="text-slate-500 font-semibold text-xl w-32">Eté</p> </a>
+                   class="bg-slate-100 rounded-lg p-4 sm:p-6 min-h-32 lg:h-45 flex items-center justify-center gap-3 hover:bg-green-200">
+                    <img src="{{ asset('images/iconete.png') }}" class="w-16 h-16 sm:w-20 sm:h-20">
+                    <p class="text-slate-500 font-semibold text-lg sm:text-xl w-32">Eté</p>
+                </a>
 
                 <a href="{{ path('recette_list', {saison: 'Automne'}) }}"
-                   class="bg-slate-100 rounded-lg p-6 h-45 flex items-center justify-center gap-3 hover:bg-amber-200">
-                    <img src="{{ asset('images/iconeautome.png') }}" class="w-20 h-20">
-                       <p class="text-slate-500 font-semibold text-xl w-32">Automne</p> </a>
-
+                   class="bg-slate-100 rounded-lg p-4 sm:p-6 min-h-32 lg:h-45 flex items-center justify-center gap-3 hover:bg-amber-200">
+                    <img src="{{ asset('images/iconeautome.png') }}" class="w-16 h-16 sm:w-20 sm:h-20">
+                    <p class="text-slate-500 font-semibold text-lg sm:text-xl w-32">Automne</p>
+                </a>
 
                 <a href="{{ path('recette_list', {saison: 'Hiver'}) }}"
-                   class="bg-slate-100 rounded-lg p-6 h-45 flex items-center justify-center gap-3 hover:bg-blue-200">
-                    <img src="{{ asset('images/hiver.png') }}" class="w-20 h-20">
-                    <p class="text-slate-500 font-semibold text-xl w-32">Hiver</p> </a>
-
-
-
-
-            </div>
+                   class="bg-slate-100 rounded-lg p-4 sm:p-6 min-h-32 lg:h-45 flex items-center justify-center gap-3 hover:bg-blue-200">
+                    <img src="{{ asset('images/hiver.png') }}" class="w-16 h-16 sm:w-20 sm:h-20">
+                    <p class="text-slate-500 font-semibold text-lg sm:text-xl w-32">Hiver</p>
+                </a>
 
             </div>
         </div>

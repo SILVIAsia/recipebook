@@ -13,14 +13,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-
-
-
-
 class RecetteFixtures extends Fixture implements DependentFixtureInterface
 {
-
-
     const RECETTE_REFERENCE = 'recette';
 
     public function load(ObjectManager $manager): void
@@ -30,7 +24,6 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
 
         //crée 50 recettes!
         for ($i = 1; $i <= 100; $i++) {
-
             //crée une instance vide
             $recette = new Recette();
             // on l'hydrate
@@ -39,7 +32,6 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
             $recette->setPreparationTime($faker->numberBetween(30, 60));
             $recette->setCooktime($faker->numberBetween(30, 60));
             $recette->setServings($faker->numberBetween(1, 60));
-
             $recette->setDate(\DateTimeImmutable::createFromMutable($faker->dateTime()));
             $recette->setDifficulty($faker->numberBetween(1, 3));
             $recette->setProducer($faker->name());
@@ -60,7 +52,6 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
                 SeasonFixtures::SEASON_REFERENCE . $faker->randomElement($seasons),
                 Season::class
             ));
-
 
             $recette->setActivity($this->getReference(
                 ActivityFixtures::ACTIVITY_REFERENCE .  $faker->numberBetween(0, 4),
@@ -88,13 +79,9 @@ class RecetteFixtures extends Fixture implements DependentFixtureInterface
 
             $this->addReference(self::RECETTE_REFERENCE . $i, $recette);
 
-
-
-
             //on subgarde
             $manager->persist($recette);
         }
-
         //on exécute
 $manager->flush();
     }
