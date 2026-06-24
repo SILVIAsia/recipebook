@@ -72,7 +72,7 @@
 
 
             {# Ingrédients #}
-            <div class="p-6 mb-4">
+            <div class="mb-4">
                 <h2 class="text-xl font-bold text-pink-500 mb-3">Ingrédients</h2>
                 <ul class="space-y-2">
                     {% for ingredient in recette.ingredients %}
@@ -85,12 +85,16 @@
     </div>
 
     {# Étapes #}
-    <div class=" mb-4">
+    <div class=" mb-4mb-4 ml-8 md:ml-16 ">
         <h2 class="text-xl font-bold text-pink-500 mb-3">Étapes</h2>
         {% for step in recette.steps %}
-            <div class="flex gap-4 mb-4">
-                <span
-                    class="bg-pink-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">{{ step.number }}</span>
+
+
+            <div class="flex gap-4 mb-4 items-start ml-8">
+                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center"
+                     style="background-image: url('{{ asset('images/gallet.jpg') }}'); background-size: cover; background-position: center;">
+                    <span class="font-bold text-white text-lg">{{ step.number }}</span>
+                </div>
                 <p class="text-slate-600 pt-1">{{ step.description }}</p>
             </div>
         {% endfor %}

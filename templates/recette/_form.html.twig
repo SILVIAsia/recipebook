@@ -1,5 +1,5 @@
 
-{{ form_start(recetteForm, {'attr': {'novalidate': 'novalidate', }}) }}
+{{ form_start(recetteForm, {'attr': {'novalidate': 'novalidate', 'data-turbo': 'false' }}) }}
 
 {{ form_errors(recetteForm) }}
 
@@ -113,5 +113,5 @@
     </div>
 </div>
 
-{{ form_end(recetteForm, {'render_rest': false}) }}
+{{ form_end(recetteForm) }}
 
