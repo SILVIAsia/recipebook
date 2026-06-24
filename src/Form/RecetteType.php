@@ -154,7 +154,7 @@ class RecetteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Recette::class,
-            'csrf_protection' => false,
+            'csrf_protection' => true,
             //linea aqui abajo me dice que esta bien mi classe de formulario asociado a mi entite recette
 
         ]);
