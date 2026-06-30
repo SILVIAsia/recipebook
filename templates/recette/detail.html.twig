@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="flex justify-end mr-20 gap-3">
+    <div class="flex flex-wrap justify-end mr-5 md:mr-20 gap-3">
         <a href="{{ path('mon_espace') }}" class="bg-pink-400 text-white p-2 rounded">Retour à mon espace</a>
 
         {% if app.user == recette.user or is_granted("ROLE_ADMIN") %}
@@ -24,8 +24,8 @@
 
 
 
-    <div class="flex gap-6  pb-6">
-        <div class="w-1/2 h-210  overflow-hidden bg-slate-200 flex items-center justify-center  ml-auto">
+    <div class="flex flex-col md:flex-row gap-6  pb-6">
+        <div class="w-full md:w-1/2 md:h-210  overflow-hidden bg-slate-200 flex items-center justify-center  ml-auto">
             {% if recette.picture %}
                 <img src="{{ asset('uploads/images/'~recette.picture) }}"
                      alt="{{ recette.titre }}"
@@ -85,16 +85,12 @@
     </div>
 
     {# Étapes #}
-    <div class=" mb-4 ml-8 md:ml-16 ">
-        <h2 class="text-xl font-bold text-pink-500 mb-3">Étapes</h2>
+    <div class=" mb-4 ml-20 md:ml-16">
+        <h2 class="text-xl font-bold text-pink-500 mb-3 ml-50">Étapes</h2>
         {% for step in recette.steps %}
-
-
-            <div class="flex gap-4 mb-4 items-start">
-                <div class="flex-shrink-0 min-w-12 min-h-12 flex items-center justify-center"
-                     style="background-image: url('{{ asset('images/gallet.jpg') }}'); background-size: cover; background-position: center;">
-                    <span class="font-bold text-white text-lg">{{ step.number }}</span>
-                </div>
+            <div class="flex gap-4 mb-4">
+                <span
+                    class="bg-pink-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">{{ step.number }}</span>
                 <p class="text-slate-600 pt-1">{{ step.description }}</p>
             </div>
         {% endfor %}
